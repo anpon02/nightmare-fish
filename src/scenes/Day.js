@@ -52,7 +52,7 @@ class Day extends Phaser.Scene {
         this.overlay.alpha= .25;
 
 
-
+        //hook variable
         this.hookX=0;
     }
 
