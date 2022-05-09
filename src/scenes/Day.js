@@ -12,10 +12,17 @@ class Day extends Phaser.Scene {
         this.load.image('player', './assets/player.png');
         this.load.image('trees', './assets/Trees.png');
         this.load.image('bg', './assets/background.png');
+        this.load.spritesheet('overlay', './assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
+
     }
 
     create() {
         this.add.text(20, 20, "DAY SCENE!");
+
+        this.anims.create({
+            key: 'overlay',
+            frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
+        });
 
         //define key (use keyRight to switch scenes for now)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -32,12 +39,22 @@ class Day extends Phaser.Scene {
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
+        
+        //overlay
+        this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
+        this.overlay.setBlendMode(Phaser.BlendModes.ADD);
+        this.overlay.scaleX= 1.5;
+        this.overlay.alpha= .25;
+
+
 
         this.hookX=0;
     }
 
     update() {
         //temp
+        this.overlay.anims.play('overlay', 1, true);
+
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Day to Cloud");
             this.scene.start('cloudScene');
