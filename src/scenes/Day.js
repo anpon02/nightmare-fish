@@ -7,7 +7,7 @@ class Day extends Phaser.Scene {
         this.load.image('hook', './assets/hook.png');
         this.load.image('barGreen', './assets/bar_green.png');
         this.load.image('barRed', './assets/bar_red.png');
-        this.load.image('water', './assets/water.png');
+        this.load.spritesheet('water', './assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
         this.load.image('boat', './assets/boat.png');
         this.load.image('player', './assets/player.png');
         this.load.image('trees', './assets/Trees.png');
@@ -22,6 +22,11 @@ class Day extends Phaser.Scene {
         this.anims.create({
             key: 'overlay',
             frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
+        });
+
+        this.anims.create({
+            key: 'water',
+            frames: this.anims.generateFrameNumbers('water', {start: 0, end: 11, first: 0}), frameRate: 3
         });
 
         //define key (use keyRight to switch scenes for now)
@@ -54,6 +59,8 @@ class Day extends Phaser.Scene {
     update() {
         //temp
         this.overlay.anims.play('overlay', 1, true);
+        this.water.anims.play('water', 1, true);
+
 
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Day to Cloud");
@@ -72,16 +79,16 @@ class Day extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             //correct input
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
-                this.player.x -= 10;
+                this.player.x -= 15;
             }
             //incorrect input
             else{
-                this.player.x += 25;
+                this.player.x += 40;
             }
         }
 
         //player moves towards the edge of the boat
-        this.player.x += .05;
+        this.player.x += .075;
 
         //conditionals for winning and losing
         if(this.player.x + .5*this.player.width > this.boat.x + .5*this.boat.width){
