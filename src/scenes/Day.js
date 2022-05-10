@@ -58,9 +58,7 @@ class Day extends Phaser.Scene {
 
         this.cast = false;
         this.castTimer = 6000;
-        this.caught = false;
-        this.caughtTimer = 5000;
-        this.move = false;
+        
     }
 
     update() {
@@ -79,33 +77,22 @@ class Day extends Phaser.Scene {
         }
 
         //cast mechanic
-        if (Phaser.Input.Keyboard.JustDown(keyC) && !this.caught) {
-            this.cast = true
-        }
-
-        if (this.cast) {
+        if (this.cast && !this.move) {
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
-        }
-        if (this.castTimer == 0) {
-            //play anim
-            this.cast = false;
-            this.caught = true;
-        }
-        if (this.caught) {
-            this.caughtTimer -= 25
-            console.log("caught timer: " + this.caughtTimer);
+            if(this.castTimer <= 0){
+                //run function that says "CAUGHT!" or something on screen
+                if(Phaser.Input.Keyboard.JustDown(keyC)){
+                    this.move= true;
+                    console.log("it should start");
+                }
+            }
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
-            this.caught = false;
-            this.move = true;
+            this.cast = true;
         }
-
-        if (this.caughtTimer == 0) {
-            //playanim
-            this.scene.start('overScene');
-        }
+        
 
         //UI movement (starts at 7 seconds)
         if (this.move) { 
@@ -125,7 +112,7 @@ class Day extends Phaser.Scene {
         }
 
         //player moves towards the edge of the boat
-        if (this.castTimer == 0) {
+        if (this.move == 0) {
             this.player.x += .075;
         }
 
