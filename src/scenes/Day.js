@@ -86,6 +86,10 @@ class Day extends Phaser.Scene {
                     this.move= true;
                     console.log("it should start");
                 }
+                else if (this.castTimer == -6000 && !this.move) {
+                    //play death
+                    this.scene.start('overScene');
+                }
             }
         }
 
@@ -93,7 +97,6 @@ class Day extends Phaser.Scene {
             this.cast = true;
         }
         
-
         //UI movement (starts at 7 seconds)
         if (this.move) { 
             this.hookX+=.01; //controls hook speed
