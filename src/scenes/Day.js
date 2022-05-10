@@ -5,6 +5,7 @@ class Day extends Phaser.Scene {
 
     preload() {
         this.load.image('hook', './assets/hook.png');
+        this.load.image('caught', './assets/caughtMessage.png');
         this.load.image('barGreen', './assets/bar_green.png');
         this.load.image('barRed', './assets/bar_red.png');
         this.load.spritesheet('water', './assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
@@ -34,6 +35,7 @@ class Day extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
 
         //place spritesheets
@@ -44,6 +46,7 @@ class Day extends Phaser.Scene {
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
+        this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         
         //overlay
@@ -56,8 +59,11 @@ class Day extends Phaser.Scene {
         //hook variable
         this.hookX=0;
 
+        //cast variables
         this.cast = false;
         this.castTimer = 6000;
+        this.caughtSprite.alpha = 1;
+        this.move = false;
         
     }
 
@@ -81,10 +87,12 @@ class Day extends Phaser.Scene {
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
+                this.caughtSprite.alpha = 1;
                 //run function that says "CAUGHT!" or something on screen
                 if(Phaser.Input.Keyboard.JustDown(keyC)){
+                    this.caughtSprite.alpha = 0;
                     this.move= true;
-                    console.log("it should start");
+                    console.log("start reeling");
                 }
                 else if (this.castTimer == -6000 && !this.move) {
                     //play death
@@ -94,16 +102,17 @@ class Day extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
+            this.caughtSprite.alpha = 0;
             this.cast = true;
         }
         
-        //UI movement (starts at 7 seconds)
+        //UI movement
         if (this.move) { 
             this.hookX+=.01; //controls hook speed
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
         }
         //input checks
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
             //correct input
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
@@ -115,7 +124,7 @@ class Day extends Phaser.Scene {
         }
 
         //player moves towards the edge of the boat
-        if (this.move == 0) {
+        if (this.move) {
             this.player.x += .075;
         }
 

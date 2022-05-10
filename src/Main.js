@@ -10,7 +10,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 //reserve key vars
-let keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE, keyESC, keyC;
+let keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE, keyESC, keyC, keySHIFT, keyENTER;
 
 let gamewidth= game.config.width;
 let gameheight= game.config.height;
