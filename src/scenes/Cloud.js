@@ -133,7 +133,7 @@ class Cloud extends Phaser.Scene {
             this.hookX+=.01; //controls hook speed
             this.lanternY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
-            this.lantern.y = (252* (Math.sin(this.lanternY)) +300);
+            this.lantern.y = (252* (Math.sin(this.lanternY)) +320);
         }
         //input checks hook
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
@@ -147,17 +147,17 @@ class Cloud extends Phaser.Scene {
             }
         }
 
-        // //input checks lantern
-        // if (Phaser.Input.Keyboard.JustDown(keySHIFT) && this.move) {
-        //     //correct input
-        //     if(this.lantern.y <= this.lanternGreen.y + .5* this.lanternGreen.height && this.lantern.y >= this.lanternGreen.y - .5* this.lanternGreen.height){
-        //         this.player.x -= 15;
-        //     }
-        //     //incorrect input
-        //     else{
-        //         this.player.x += 40;
-        //     }
-        // }
+        //input checks lantern
+        if (Phaser.Input.Keyboard.JustDown(keySHIFT) && this.move) {
+            //correct input
+            if(this.lantern.y <= this.lanternGreen.y + .5* this.lanternGreen.height && this.lantern.y >= this.lanternGreen.y - .5* this.lanternGreen.height){
+                this.player.x -= 15;
+            }
+            //incorrect input
+            else{
+                this.player.x += 40;
+            }
+        }
 
         //player moves towards the edge of the boat
         if (this.move) {
