@@ -133,7 +133,7 @@ class Cloud extends Phaser.Scene {
             this.hookX+=.01; //controls hook speed
             this.lanternY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
-            this.lantern.y = (252* (Math.sin(this.lanternY)) +320);
+            this.lantern.y = (32* (Math.sin(this.lanternY)) +462);
         }
         //input checks hook
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
