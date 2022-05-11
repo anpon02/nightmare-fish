@@ -13,7 +13,7 @@ class Menu extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Menu to Day");
-            this.scene.start('dayScene');
+            this.scene.start('cutoneScene');
             //replace with cutscene ^
         }
     }
