@@ -35,6 +35,7 @@ class Cloud extends Phaser.Scene {
         //define key (use keyRight to switch scenes for now)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keySHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -50,13 +51,13 @@ class Cloud extends Phaser.Scene {
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
 
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
-        this.redHoriz = this.add.sprite(game.config.width/15, game.config.height/3 - borderUISize - borderPadding,'redHoriz').setOrigin(0.5, 0);
+        this.redHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'redHoriz').setOrigin(0.5, 0.5);
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
-        this.greenHoriz = this.add.sprite(game.config.width/15, game.config.height/3 - borderUISize - borderPadding,'greenHoriz').setOrigin(0.5, 0);
+        this.greenHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'greenHoriz').setOrigin(0.5, 0.5);
 
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
-        this.lantern = this.add.sprite(game.config.width/15, game.config.height/3 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
+        this.lantern = this.add.sprite(game.config.width/17, game.config.height/2,'hook').setOrigin(0.5, 0.5);
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
         //overlay
@@ -64,7 +65,7 @@ class Cloud extends Phaser.Scene {
         this.overlay.setBlendMode(Phaser.BlendModes.ADD);
         this.overlay.scaleX= 1.5;
         this.overlay.alpha= .25;
-        this.fog.alpha = 0.5;
+        this.fog.alpha = 0.25;
 
 
         //hook variable
@@ -79,7 +80,8 @@ class Cloud extends Phaser.Scene {
     }
 
     update() {
-            if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        //temp
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Cloud to Rain");
             this.scene.start('rainScene');
         }
@@ -94,15 +96,6 @@ class Cloud extends Phaser.Scene {
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
 
-
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            console.log("Day to Cloud");
-            this.scene.start('cloudScene');
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('menuScene');
-        }
 
         //cast mechanic
         if (this.cast && !this.move) {
@@ -128,13 +121,15 @@ class Cloud extends Phaser.Scene {
             this.cast = true;
         }
         
-        //UI movement
+        //UI movement and fog increase
         if (this.move) { 
             this.hookX+=.01; //controls hook speed
             this.lanternY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
-            this.lantern.y = (32* (Math.sin(this.lanternY)) +462);
+            this.lantern.y = (140* (Math.sin(2* this.lanternY)) +240);
+            this.fog.alpha += .001;
         }
+        
         //input checks hook
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
             //correct input
@@ -150,12 +145,12 @@ class Cloud extends Phaser.Scene {
         //input checks lantern
         if (Phaser.Input.Keyboard.JustDown(keySHIFT) && this.move) {
             //correct input
-            if(this.lantern.y <= this.lanternGreen.y + .5* this.lanternGreen.height && this.lantern.y >= this.lanternGreen.y - .5* this.lanternGreen.height){
-                this.player.x -= 15;
+            if(this.lantern.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lantern.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
+                this.fog.alpha -= .20;  
             }
             //incorrect input
             else{
-                this.player.x += 40;
+                this.fog.alpha += .20;  
             }
         }
 

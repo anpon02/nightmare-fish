@@ -78,9 +78,18 @@ class Day extends Phaser.Scene {
     }
 
     update() {
-        //temp
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
+
+        //temp
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+            console.log("Day to Cloud");
+            this.scene.start('cloudScene');
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.scene.start('menuScene');
+        }
 
         //text manager
         
@@ -95,14 +104,6 @@ class Day extends Phaser.Scene {
             this.spaceText.alpha -= .005;
         }
 
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            console.log("Day to Cloud");
-            this.scene.start('cloudScene');
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('menuScene');
-        }
 
         //cast mechanic
         if (this.cast && !this.move) {
