@@ -5,6 +5,8 @@ class Day extends Phaser.Scene {
 
     preload() {
         this.load.image('hook', './assets/hook.png');
+        this.load.image('cText', './assets/cText.png');
+        this.load.image('spaceText', './assets/spaceText.png');
         this.load.image('caught', './assets/caughtMessage.png');
         this.load.image('barGreen', './assets/bar_green.png');
         this.load.image('barRed', './assets/bar_red.png');
@@ -48,13 +50,20 @@ class Day extends Phaser.Scene {
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
+        this.cText = this.add.sprite(game.config.width/2, game.config.height - 80, 'cText').setOrigin(0.5, 0);
+        this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
+
         
+
         //overlay
         this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
         this.overlay.setBlendMode(Phaser.BlendModes.ADD);
         this.overlay.scaleX= 1.5;
         this.overlay.alpha= .25;
 
+        //alphas
+        this.cText.alpha= 0;
+        this.spaceText.alpha= 0;
 
         //hook variable
         this.hookX=0;
@@ -62,8 +71,9 @@ class Day extends Phaser.Scene {
         //cast variables
         this.cast = false;
         this.castTimer = 6000;
-        this.caughtSprite.alpha = 1;
+        this.caughtSprite.alpha = 0;
         this.move = false;
+        this.spacePressed= false;
         
     }
 
@@ -72,6 +82,18 @@ class Day extends Phaser.Scene {
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
 
+        //text manager
+        
+        if(!this.cast){
+            this.cText.alpha += .005;
+        }
+
+        if(this.move && !this.spacePressed){
+            this.spaceText.alpha += .005;
+        }
+        else{
+            this.spaceText.alpha -= .005;
+        }
 
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Day to Cloud");
@@ -102,7 +124,7 @@ class Day extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
-            this.caughtSprite.alpha = 0;
+            this.cText.alpha = 0;
             this.cast = true;
         }
         
@@ -114,6 +136,8 @@ class Day extends Phaser.Scene {
         //input checks
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
             //correct input
+            this.spacePressed= true;
+            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
             }
