@@ -14,6 +14,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Menu to Day");
             this.scene.start('cutoneScene');
+            this.scene.start('audioManagerScene');
             //replace with cutscene ^
         }
     }
