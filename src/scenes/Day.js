@@ -7,6 +7,8 @@ class Day extends Phaser.Scene {
         this.load.image('hook', './assets/hook.png');
         this.load.image('cText', './assets/cText.png');
         this.load.image('spaceText', './assets/spaceText.png');
+        this.load.image('carefulText', './assets/beCareful.png');
+        this.load.image('fallText', './assets/dontFallIn.png')
         this.load.image('caught', './assets/caughtMessage.png');
         this.load.image('barGreen', './assets/bar_green.png');
         this.load.image('barRed', './assets/bar_red.png');
@@ -52,7 +54,8 @@ class Day extends Phaser.Scene {
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         this.cText = this.add.sprite(game.config.width/2, game.config.height - 80, 'cText').setOrigin(0.5, 0);
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
-
+        this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
+        this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
         
 
         //overlay
@@ -64,6 +67,8 @@ class Day extends Phaser.Scene {
         //alphas
         this.cText.alpha= 0;
         this.spaceText.alpha= 0;
+        this.carefulText.alpha = 0;
+        this.fallText.alpha = 0;
 
         //hook variable
         this.hookX=0;
@@ -74,7 +79,7 @@ class Day extends Phaser.Scene {
         this.caughtSprite.alpha = 0;
         this.move = false;
         this.spacePressed= false;
-        
+        this.badInput= false;
     }
 
     update() {
@@ -104,6 +109,21 @@ class Day extends Phaser.Scene {
             this.spaceText.alpha -= .005;
         }
 
+        if(this.badInput){
+            this.carefulText.alpha += .005;
+            this.time.addEvent({delay: 1500, callback: () => {
+                if(this.badInput){
+                    this.fallText.alpha += .005;
+                }
+            }, callbackScope: this, loop: false});
+            this.time.addEvent({delay: 5000, callback: () => {
+                this.badInput= false;
+            }, callbackScope: this, loop: false});
+        }
+        else if(this.carefulText.alpha >0){
+            this.carefulText.alpha -= .005;
+            this.fallText.alpha -= .005;
+        }
 
         //cast mechanic
         if (this.cast && !this.move) {
@@ -144,6 +164,7 @@ class Day extends Phaser.Scene {
             }
             //incorrect input
             else{
+                this.badInput= true;
                 this.player.x += 40;
             }
         }
