@@ -62,6 +62,7 @@ class Menu extends Phaser.Scene {
             this.fade= true;
             this.time.addEvent({delay: 5000, callback: () => {
                 this.scene.start('cutoneScene');
+                this.scene.start('audioManagerScene');
             }, callbackScope: this, loop: false});
         }
         if(this.fade){
