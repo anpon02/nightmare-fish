@@ -144,6 +144,7 @@ class Day extends Phaser.Scene {
             }
         }
 
+        //initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
             this.cText.alpha = 0;
             this.cast = true;
