@@ -4,19 +4,19 @@ class Cloud extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('fog', './assets/fog.png');
-        this.load.image('hook', './assets/hook.png');
-        this.load.image('caught', './assets/caughtMessage.png');
-        this.load.image('barGreen', './assets/bar_green.png');
-        this.load.image('greenHoriz', './assets/lanternGreen.png');
-        this.load.image('barRed', './assets/bar_red.png');
-        this.load.image('redHoriz', './assets/lanternBar.png');
-        this.load.spritesheet('water', './assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
-        this.load.image('boat', './assets/boat.png');
-        this.load.image('player', './assets/player.png');
-        this.load.image('trees', './assets/Trees.png');
-        this.load.image('bg', './assets/background.png');
-        this.load.spritesheet('overlay', './assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
+        this.load.image('fog', './Assets/fog.png');
+        this.load.image('hook', './Assets/hook.png');
+        this.load.image('caught', './Assets/caughtMessage.png');
+        this.load.image('barGreen', './Assets/bar_green.png');
+        this.load.image('greenHoriz', './Assets/lanternGreen.png');
+        this.load.image('barRed', './Assets/bar_red.png');
+        this.load.image('redHoriz', './Assets/lanternBar.png');
+        this.load.spritesheet('water', './Assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
+        this.load.image('boat', './Assets/boat.png');
+        this.load.image('player', './Assets/player.png');
+        this.load.image('trees', './Assets/Trees.png');
+        this.load.image('bg', './Assets/background.png');
+        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
     }
 
     create() {
