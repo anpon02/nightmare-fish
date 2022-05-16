@@ -80,11 +80,17 @@ class Day extends Phaser.Scene {
         this.move = false;
         this.spacePressed= false;
         this.badInput= false;
+
+        this.timer= 0;
     }
 
     update() {
+        //animations
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
+
+        this.timer += .005;
+        this.boat.y= 4* Math.sin(this.timer) +278;
 
         //temp
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
