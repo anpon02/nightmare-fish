@@ -22,6 +22,7 @@ class Cloud extends Phaser.Scene {
     }
 
     create() {
+        goback = 'cloudScene';
         this.add.text(20, 20, "CLOUD SCENE!");
 
         this.anims.create({
@@ -53,8 +54,7 @@ class Cloud extends Phaser.Scene {
         //place spritesheets
         this.background = this.add.tileSprite(0, 0, gamewidth, gameheight, 'bg').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, gamewidth, gameheight, 'trees').setOrigin(0, 0);
-        this.lantern = this.add.sprite(130,game.config.height/2 -5,'lantern').setOrigin(0.5, 0.5);
-        this.lanternglow = this.add.sprite(130,game.config.height/2 -5,'lanternglow').setOrigin(0.5, 0.5);
+        //this.lantern = this.add.sprite(130,game.config.height/2 -5,'lantern').setOrigin(0.5, 0.5);
         this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'player').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
@@ -67,6 +67,8 @@ class Cloud extends Phaser.Scene {
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'hook').setOrigin(0.5, 0.5);
+        this.lantern = this.add.sprite(game.config.width/17, game.config.height/2,'lantern').setOrigin(0.5, 0.5);
+        this.lanternglow = this.add.sprite(game.config.width/17, game.config.height/2,'lanternglow').setOrigin(0.5, 0.5);
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
         //overlay
@@ -82,6 +84,7 @@ class Cloud extends Phaser.Scene {
         //hook variable
         this.hookX=0;
         this.lanternY = 0;
+        this.lanternglowY = 0;
 
         //cast variables
         this.cast = false;
@@ -115,6 +118,7 @@ class Cloud extends Phaser.Scene {
         this.boat.y= 4* Math.sin(this.timer) +278;
         this.lantern.y= 4* Math.sin(this.timer) +240;
         this.lanternglow.y= 4* Math.sin(this.timer) +240;
+        this.boat.y = 4* Math.sin(this.timer) +278;
 
         //cast mechanic
         if (this.cast && !this.move) {
@@ -144,8 +148,11 @@ class Cloud extends Phaser.Scene {
         if (this.move) { 
             this.hookX+=.01; //controls hook speed
             this.lanternY += .01;
+            this.lanternglowY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
             this.lanternUI.y = (140* (Math.sin(2* this.lanternY)) +240);
+            this.lantern.y = (140* (Math.sin(2* this.lanternY)) +240);
+            this.lanternglow.y = (140* (Math.sin(2* this.lanternY)) +240);
             this.fog.alpha += .001;
             this.lanternglow.alpha = 1- this.fog.alpha;
         }

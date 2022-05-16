@@ -21,6 +21,7 @@ class AudioManager extends Phaser.Scene {
         this.dayActionbgm = this.sound.add('bgm_ReelingFromCurrent');
 
         this.day1Check = false;
+        this.castMusic = false;
     }
 
     update(){
@@ -28,6 +29,12 @@ class AudioManager extends Phaser.Scene {
           console.log('PLAY DAY1 Song');
           this.dayRestbgm.play();
           this.day1Check = true;
+        }
+
+        if (!this.day1Check){
+            console.log('Reel em!');
+            this.dayActionbgm.play();
+            this.castMusic = true;
         }
     }
 }
