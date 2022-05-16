@@ -66,7 +66,7 @@ class Cloud extends Phaser.Scene {
 
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
-        this.lantern = this.add.sprite(game.config.width/17, game.config.height/2,'hook').setOrigin(0.5, 0.5);
+        this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'hook').setOrigin(0.5, 0.5);
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
         //overlay
@@ -88,6 +88,8 @@ class Cloud extends Phaser.Scene {
         this.castTimer = 6000;
         this.caughtSprite.alpha = 1;
         this.move = false;
+
+        this.timer=0;
     }
 
     update() {
@@ -108,8 +110,11 @@ class Cloud extends Phaser.Scene {
         this.water.anims.play('water', 1, true);
         this.lanternglow.anims.play('lanternglow', 1, true);
 
+        console.log(this.lantern.y);
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +278;
+        this.lantern.y= 4* Math.sin(this.timer) +240;
+        this.lanternglow.y= 4* Math.sin(this.timer) +240;
 
         //cast mechanic
         if (this.cast && !this.move) {
@@ -140,7 +145,7 @@ class Cloud extends Phaser.Scene {
             this.hookX+=.01; //controls hook speed
             this.lanternY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
-            this.lantern.y = (140* (Math.sin(2* this.lanternY)) +240);
+            this.lanternUI.y = (140* (Math.sin(2* this.lanternY)) +240);
             this.fog.alpha += .001;
             this.lanternglow.alpha = 1- this.fog.alpha;
         }
@@ -160,7 +165,7 @@ class Cloud extends Phaser.Scene {
         //input checks lantern
         if (Phaser.Input.Keyboard.JustDown(keySHIFT) && this.move) {
             //correct input
-            if(this.lantern.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lantern.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
+            if(this.lanternUI.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lanternUI.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
                 this.fog.alpha -= .25;  
             }
             //incorrect input
