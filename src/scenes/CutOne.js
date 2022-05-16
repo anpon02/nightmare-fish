@@ -171,6 +171,7 @@ class CutOne extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Cut to Day");
             this.scene.start('dayScene');
+            this.scene.start('audioManagerScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('menuScene');
