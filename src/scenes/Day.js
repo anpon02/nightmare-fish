@@ -22,6 +22,7 @@ class Day extends Phaser.Scene {
     }
 
     create() {
+        goback = 'dayScene';
         this.add.text(20, 20, "DAY SCENE!");
 
         this.anims.create({

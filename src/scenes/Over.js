@@ -17,7 +17,7 @@ class Over extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             console.log("Over to Day");
-            this.scene.start('dayScene');
+            this.scene.start(goback);
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
