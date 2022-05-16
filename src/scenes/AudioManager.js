@@ -31,7 +31,7 @@ class AudioManager extends Phaser.Scene {
           this.day1Check = true;
         }
 
-        if (this.cast && this.day1Check){
+        if (Day.cast && this.day1Check){
             console.log('Reel em!');
             this.dayActionbgm.play();
             this.castMusic = true;
