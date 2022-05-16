@@ -4,27 +4,35 @@ class Cloud extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('fog', './assets/fog.png');
-        this.load.image('hook', './assets/hook.png');
-        this.load.image('caught', './assets/caughtMessage.png');
-        this.load.image('barGreen', './assets/bar_green.png');
-        this.load.image('greenHoriz', './assets/lanternGreen.png');
-        this.load.image('barRed', './assets/bar_red.png');
-        this.load.image('redHoriz', './assets/lanternBar.png');
-        this.load.spritesheet('water', './assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
-        this.load.image('boat', './assets/boat.png');
-        this.load.image('player', './assets/player.png');
-        this.load.image('trees', './assets/Trees.png');
-        this.load.image('bg', './assets/background.png');
-        this.load.spritesheet('overlay', './assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
+        this.load.image('fog', './Assets/fog.png');
+        this.load.image('lantern', './Assets/lantern.png');
+        this.load.spritesheet('lanternglow', './Assets/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
+        this.load.image('hook', './Assets/hook.png');
+        this.load.image('caught', './Assets/caughtMessage.png');
+        this.load.image('barGreen', './Assets/bar_green.png');
+        this.load.image('greenHoriz', './Assets/lanternGreen.png');
+        this.load.image('barRed', './Assets/bar_red.png');
+        this.load.image('redHoriz', './Assets/lanternBar.png');
+        this.load.spritesheet('water', './Assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
+        this.load.image('boat', './Assets/boat.png');
+        this.load.image('player', './Assets/player.png');
+        this.load.image('trees', './Assets/Trees.png');
+        this.load.image('bg', './Assets/background.png');
+        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
     }
 
     create() {
+        goback = 'cloudScene';
         this.add.text(20, 20, "CLOUD SCENE!");
 
         this.anims.create({
             key: 'overlay',
             frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
+        });
+
+        this.anims.create({
+            key: 'lanternglow',
+            frames: this.anims.generateFrameNumbers('lanternglow', {start: 0, end: 2, first: 0}), frameRate: 2
         });
 
         this.anims.create({
@@ -46,6 +54,7 @@ class Cloud extends Phaser.Scene {
         //place spritesheets
         this.background = this.add.tileSprite(0, 0, gamewidth, gameheight, 'bg').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, gamewidth, gameheight, 'trees').setOrigin(0, 0);
+        //this.lantern = this.add.sprite(130,game.config.height/2 -5,'lantern').setOrigin(0.5, 0.5);
         this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'player').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
@@ -57,7 +66,8 @@ class Cloud extends Phaser.Scene {
 
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
-        this.lantern = this.add.sprite(game.config.width/17, game.config.height/2,'hook').setOrigin(0.5, 0.5);
+        this.lantern = this.add.sprite(game.config.width/17, game.config.height/2,'lantern').setOrigin(0.5, 0.5);
+        this.lanternglow = this.add.sprite(game.config.width/17, game.config.height/2,'lanternglow').setOrigin(0.5, 0.5);
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
         //overlay
@@ -67,10 +77,13 @@ class Cloud extends Phaser.Scene {
         this.overlay.alpha= .25;
         this.fog.alpha = 0.25;
 
+        this.lanternglow.setBlendMode(Phaser.BlendModes.ADD);
+        this.lanternglow.alpha = 1- this.fog.alpha;
 
         //hook variable
         this.hookX=0;
         this.lanternY = 0;
+        this.lanternglowY = 0;
 
         //cast variables
         this.cast = false;
@@ -92,10 +105,13 @@ class Cloud extends Phaser.Scene {
 
         this.fog.tilePositionX -= this.speed/4;
 
-        //temp
+        //animations
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
+        this.lanternglow.anims.play('lanternglow', 1, true);
 
+        this.timer += .005;
+        this.boat.y = 4* Math.sin(this.timer) +278;
 
         //cast mechanic
         if (this.cast && !this.move) {
@@ -125,9 +141,12 @@ class Cloud extends Phaser.Scene {
         if (this.move) { 
             this.hookX+=.01; //controls hook speed
             this.lanternY += .01;
+            this.lanternglowY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
             this.lantern.y = (140* (Math.sin(2* this.lanternY)) +240);
+            this.lanternglow.y = (140* (Math.sin(2* this.lanternY)) +240);
             this.fog.alpha += .001;
+            this.lanternglow.alpha = 1- this.fog.alpha;
         }
         
         //input checks hook
@@ -146,11 +165,11 @@ class Cloud extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySHIFT) && this.move) {
             //correct input
             if(this.lantern.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lantern.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
-                this.fog.alpha -= .20;  
+                this.fog.alpha -= .25;  
             }
             //incorrect input
             else{
-                this.fog.alpha += .20;  
+                this.fog.alpha += .10;  
             }
         }
 

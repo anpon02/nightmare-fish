@@ -3,9 +3,9 @@ class Menu extends Phaser.Scene {
       super("menuScene");
     }
     preload(){
-        this.load.spritesheet('overlay', './assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
+        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
 
-        this.load.image('titleCard', './assets/titlecard.png' );
+        this.load.image('titleCard', './Assets/titlecard.png' );
         this.load.image('hills','./Assets/CutSceneOne/hills.png');
         this.load.image('sunrise','./Assets/CutSceneOne/sunrise.png');
         this.load.spritesheet('lake', './Assets/CutSceneOne/lake.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 2});

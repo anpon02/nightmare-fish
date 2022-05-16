@@ -10,7 +10,7 @@ class CutOne extends Phaser.Scene {
 
         this.load.image('background2', './Assets/CutSceneOne/background_openingscene.png');
         this.load.image('pole','./Assets/CutSceneOne/pole.png')
-        this.load.spritesheet('overlay', './assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
+        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.spritesheet('paperSheet', './Assets/CutSceneOne/paperSheet.png', {frameWidth: 1436, frameHeight: 887, startFrame: 0, endFrame: 3});
         this.load.spritesheet('paperWind', './Assets/CutSceneOne/paperWind.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 9});
         this.load.spritesheet('walk1', './Assets/CutSceneOne/walk.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 6});
@@ -20,12 +20,19 @@ class CutOne extends Phaser.Scene {
         this.load.image('boat2','./Assets/CutSceneOne/the_boat.png');
         this.load.spritesheet('walk2', './Assets/CutSceneOne/dock_walk.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 5});
 
+        this.load.image('background4','./Assets/CutSceneOne/background_blink.png');
+        this.load.image('sailor_1','./Assets/CutSceneOne/sailor.png');
+        this.load.image('shops','./Assets/CutSceneOne/shops.png');
+        this.load.spritesheet('player_blink', './Assets/CutSceneOne/cutsceneone_player.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 11});
+
 
     }
 
     create() {
         this.add.text(20, 20, "CUT SCENE");
         this.timer= 0;
+        this.playeranims =0;
+        this.simcameramovement= false;
         //camera
         this.cameras.main.setBounds(0, 0, 1438, 887);
         this.cameras.main.setZoom(1.0);
@@ -67,6 +74,21 @@ class CutOne extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('walk2', {start: 0, end: 5, first: 0}), frameRate: .5
         });
 
+        this.anims.create({
+            key: 'blink',
+            frames: this.anims.generateFrameNumbers('player_blink', {start: 0, end: 3, first: 0}), frameRate: 2
+        });
+
+        this.anims.create({
+            key: 'stare',
+            frames: this.anims.generateFrameNumbers('player_blink', {start: 4, end: 7, first: 4}), frameRate: 2
+        });
+
+        this.anims.create({
+            key: 'look',
+            frames: this.anims.generateFrameNumbers('player_blink', {start: 8, end: 11, first: 8}), frameRate: 2
+        });
+
         //define key (use keyRight to switch scenes for now)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -91,6 +113,11 @@ class CutOne extends Phaser.Scene {
         this.boat2= this.add.sprite(0,0,'boat2').setOrigin(0,0);
         this.walk2 = this.add.sprite(0, 0, 'walk2').setOrigin(0, 0);
 
+        this.backgroundblink= this.add.sprite(0,0,'background4').setOrigin(0,0);
+        this.shops= this.add.sprite(0,0,'shops').setOrigin(0,0);
+        this.sailor= this.add.sprite(0,0,'sailor_1').setOrigin(0,0);
+        this.p= this.add.sprite(0,0,'player_blink').setOrigin(0,0);
+
         //alpha electric boogaloo
         this.background.alpha=0;
         this.pole.alpha=0;
@@ -103,6 +130,14 @@ class CutOne extends Phaser.Scene {
         this.boat2.alpha=0;
         this.walk2.alpha=0;
 
+        this.backgroundblink.alpha=0;
+        this.shops.alpha=0;
+        this.sailor.alpha=0;
+        this.p.alpha=0;
+
+        this.p.scaleY= 1.01;
+        this.p.scaleX=1.01
+
         //overlay
         this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
         this.overlay.setBlendMode(Phaser.BlendModes.ADD);
@@ -112,7 +147,7 @@ class CutOne extends Phaser.Scene {
 
 
         //im sorry my code looks like this
-        this.time.addEvent({delay: 5000, callback: () => {
+         this.time.addEvent({delay: 5000, callback: () => {
             //opening shot to missing poster cut, changes alphas to transition to new scene
             this.background.alpha=1;
             this.pole.alpha=1;
@@ -145,7 +180,7 @@ class CutOne extends Phaser.Scene {
                     }, callbackScope: this, loop: false});
                 }, callbackScope: this, loop: false});
             }, callbackScope: this, loop: false});
-        }, callbackScope: this, loop: false});
+        }, callbackScope: this, loop: false}); 
 
         //new scene
         this.time.addEvent({delay: 40000, callback: () => {
@@ -162,6 +197,28 @@ class CutOne extends Phaser.Scene {
             this.time.addEvent({delay: 3000, callback: () => {
                 this.walk2.anims.play('walk2', 1, true); 
             }, callbackScope: this, loop: false});
+        }, callbackScope: this, loop: false});
+
+        this.time.addEvent({delay: 55000, callback: () => {
+            this.backgroundblink.alpha=1;
+            this.shops.alpha=1;
+            this.sailor.alpha=1;
+            this.p.alpha=1;
+
+            this.playeranims =1;
+            this.time.addEvent({delay: 8000, callback: () => {
+                this.simcameramovement = true;
+                this.playeranims=2;
+            }, callbackScope: this, loop: false});
+
+            this.time.addEvent({delay: 10000, callback: () => {
+                this.playeranims=3;
+            }, callbackScope: this, loop: false});
+
+        }, callbackScope: this, loop: false});
+
+        this.time.addEvent({delay: 75000, callback: () => {
+            this.scene.start('dayScene');
         }, callbackScope: this, loop: false});
     }  
     
@@ -188,6 +245,22 @@ class CutOne extends Phaser.Scene {
         //scene 3
         this.backgrounddock.y= 10* Math.sin(2 * this.timer) - 10;
         this.boat2.y= 10* Math.sin(this.timer);
+
+        if(this.playeranims==1){
+            this.p.anims.play('stare', 1, true);
+        }
+        else if(this.playeranims==2){
+            this.p.anims.play('blink', 1, true);
+        }
+        else{
+            this.p.anims.play('look', 1, true);
+        }
+
+        if(this.simcameramovement && this.p.x <= 150){
+            this.p.x += .4;
+            this.shops.x -= .4;
+            this.sailor.x -=.4;
+        }
 
     }
 
