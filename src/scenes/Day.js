@@ -5,10 +5,10 @@ class Day extends Phaser.Scene {
 
     preload() {
         this.load.image('hook', './Assets/hook.png');
-        this.load.image('cText', './Assets/cText.png');
-        this.load.image('spaceText', './Assets/spaceText.png');
-        this.load.image('carefulText', './Assets/beCareful.png');
-        this.load.image('fallText', './Assets/dontFallIn.png')
+        this.load.image('cText', './Assets/TutorialText/cText.png');
+        this.load.image('spaceText', './Assets/TutorialText/spaceText.png');
+        this.load.image('carefulText', './Assets/TutorialText/beCareful.png');
+        this.load.image('fallText', './Assets/TutorialText/dontFallIn.png')
         this.load.image('caught', './Assets/caughtMessage.png');
         this.load.image('barGreen', './Assets/bar_green.png');
         this.load.image('barRed', './Assets/bar_red.png');
@@ -18,8 +18,6 @@ class Day extends Phaser.Scene {
         this.load.image('trees', './Assets/Trees.png');
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
-
-
 
     }
 
