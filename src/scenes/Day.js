@@ -8,7 +8,8 @@ class Day extends Phaser.Scene {
         this.load.image('cText', './Assets/TutorialText/cText.png');
         this.load.image('spaceText', './Assets/TutorialText/spaceText.png');
         this.load.image('carefulText', './Assets/TutorialText/beCareful.png');
-        this.load.image('fallText', './Assets/TutorialText/dontFallIn.png')
+        this.load.image('fallText', './Assets/TutorialText/dontFallIn.png');
+        this.load.image('mashText', './Assets/TutorialText/mashSpace.png');
         this.load.image('caught', './Assets/caughtMessage.png');
         this.load.image('barGreen', './Assets/bar_green.png');
         this.load.image('barRed', './Assets/bar_red.png');
@@ -84,6 +85,8 @@ class Day extends Phaser.Scene {
         this.caughtSprite.alpha = 0;
         this.move = false;
         this.spacePressed= false;
+        this.spaceDelay = false;
+
         this.badInput= false;
         this.won = false;
 
@@ -128,6 +131,18 @@ class Day extends Phaser.Scene {
         }
         else{
             this.spaceText.alpha -= .005;
+        }
+
+        if(this.spacePressed && !this.spaceDelay){
+            this.time.addEvent({delay: 1500, callback: () => {
+                this.mashText.alpha += .005;
+            }, callbackScope: this, loop: false});
+            this.time.addEvent({delay: 6500, callback: () => {
+                this.spaceDelay = true;
+            }, callbackScope: this, loop: false});
+        }
+        else{
+            this.mashText.alpha -= .005;
         }
 
         if(this.badInput){
