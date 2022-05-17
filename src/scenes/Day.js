@@ -205,8 +205,17 @@ class Day extends Phaser.Scene {
         }
 
         if(this.player.x - .5*this.player.width < this.boat.x - .5*this.boat.width){
-            this.scene.start('cloudScene'); //win
-            this.dayActionbgm.stop(); // replace with song ending later gio chan
+            //call fishCaught();
+            if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+                this.scene.start('cloudScene'); //win
+                this.dayActionbgm.stop(); // replace with song ending later gio chan
+            }
         }
+    }
+
+    fishCaught(scene, fish) {
+        //play catch anim
+        //play present fish anim
+        //display fish
     }
 }
