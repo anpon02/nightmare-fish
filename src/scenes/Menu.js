@@ -10,6 +10,14 @@ class Menu extends Phaser.Scene {
         this.load.image('sunrise','./Assets/CutSceneOne/sunrise.png');
         this.load.spritesheet('lake', './Assets/CutSceneOne/lake.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 2});
 
+        this.load.audio('bgm_DriftWood', './Assets/bgm_DriftWood.mp3');
+        this.load.audio('bgm_ReelingFromCurrent', './Assets/bgm_ReelingFromCurrent.wav');
+
+        this.load.audio('sfx_lineReeling1', './Assets/sfx_lineReeling1.mp3');
+        this.load.audio('sfx_lineReeling2', './Assets/sfx_lineReeling2.mp3');
+        this.load.audio('sfx_lineReeling3', './Assets/sfx_lineReeling3.mp3');
+        this.load.audio('sfx_lineReeling4', './Assets/sfx_lineReeling4.mp3');
+        this.load.audio('sfx_lineReeling5', './Assets/sfx_lineReeling5.mp3');
     }
 
     create() {
@@ -44,6 +52,13 @@ class Menu extends Phaser.Scene {
 
         this.fade= false;
 
+
+        let backgroundConfig = {
+            loop: true,
+            volume: 1,
+          }
+
+        this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
     }
 
     update() {
@@ -54,7 +69,8 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Menu to Day");
             this.scene.start('cutoneScene');
-            this.scene.start('audioManagerScene');
+            console.log("MOOS");
+            this.dayMusic.play();
             //replace with cutscene ^
         }
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
@@ -62,7 +78,7 @@ class Menu extends Phaser.Scene {
             this.fade= true;
             this.time.addEvent({delay: 5000, callback: () => {
                 this.scene.start('cutoneScene');
-                this.scene.start('audioManagerScene');
+                this.dayMusic.play();
             }, callbackScope: this, loop: false});
         }
         if(this.fade){

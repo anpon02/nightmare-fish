@@ -12,12 +12,18 @@ class Over extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+        this.dayRestbgm = this.sound.add('bgm_DriftWood')
     }
 
     update() {
+        this.game.sound.stopAll();
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             console.log("Over to Day");
             this.scene.start(goback);
+            if (goback == 'dayScene'){
+                this.dayRestbgm.play();
+            } 
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {

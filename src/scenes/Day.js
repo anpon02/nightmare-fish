@@ -19,6 +19,8 @@ class Day extends Phaser.Scene {
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
 
+
+
     }
 
     create() {
@@ -83,6 +85,15 @@ class Day extends Phaser.Scene {
         this.badInput= false;
 
         this.timer= 0;
+
+
+        // Daytime Music
+        this.dayMusic = this.sound.add('bgm_DriftWood');
+        this.dayActionbgm = this.sound.add('bgm_ReelingFromCurrent');
+        this.dayActionbgm.loop = true;
+
+        // line Reeling Sfx
+        this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
     }
 
     update() {
@@ -143,10 +154,13 @@ class Day extends Phaser.Scene {
                     this.caughtSprite.alpha = 0;
                     this.move= true;
                     console.log("start reeling");
+                    this.game.sound.stopAll();
+                    this.dayActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
                     //play death
                     this.scene.start('overScene');
+                    this.dayActionbgm.stop();
                 }
             }
         }
@@ -169,6 +183,7 @@ class Day extends Phaser.Scene {
             
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
+                this.sfx_reel1.play()
             }
             //incorrect input
             else{
@@ -186,10 +201,12 @@ class Day extends Phaser.Scene {
         if(this.player.x + .5*this.player.width > this.boat.x + .5*this.boat.width){
             this.cast = false
             this.scene.start('overScene'); //lose
+            this.dayActionbgm.stop();
         }
 
         if(this.player.x - .5*this.player.width < this.boat.x - .5*this.boat.width){
             this.scene.start('cloudScene'); //win
+            this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
     }
 }
