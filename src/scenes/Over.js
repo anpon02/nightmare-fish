@@ -17,6 +17,7 @@ class Over extends Phaser.Scene {
     }
 
     update() {
+        this.game.sound.stopAll();
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             console.log("Over to Day");
             this.scene.start(goback);
