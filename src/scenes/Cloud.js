@@ -150,8 +150,6 @@ class Cloud extends Phaser.Scene {
             this.lanternglowY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
             this.lanternUI.y = (140* (Math.sin(2* this.lanternY)) +240);
-            this.lantern.y = (140* (Math.sin(2* this.lanternY)) +240);
-            this.lanternglow.y = (140* (Math.sin(2* this.lanternY)) +240);
             this.fog.alpha += .001;
             this.lanternglow.alpha = 1- this.fog.alpha;
         }
