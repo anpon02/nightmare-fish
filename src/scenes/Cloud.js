@@ -4,15 +4,15 @@ class Cloud extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('fog', './Assets/fog.png');
-        this.load.image('lantern', './Assets/lantern.png');
-        this.load.spritesheet('lanternglow', './Assets/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
+        this.load.image('fog', './Assets/Fog/fog.png');
+        this.load.image('lantern', './Assets/Fog/lantern.png');
+        this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
         this.load.image('hook', './Assets/hook.png');
         this.load.image('caught', './Assets/caughtMessage.png');
         this.load.image('barGreen', './Assets/bar_green.png');
-        this.load.image('greenHoriz', './Assets/lanternGreen.png');
+        this.load.image('greenHoriz', './Assets/Fog/lanternGreen.png');
         this.load.image('barRed', './Assets/bar_red.png');
-        this.load.image('redHoriz', './Assets/lanternBar.png');
+        this.load.image('redHoriz', './Assets/Fog/lanternBar.png');
         this.load.spritesheet('water', './Assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
         this.load.image('boat', './Assets/boat.png');
         this.load.image('player', './Assets/player.png');

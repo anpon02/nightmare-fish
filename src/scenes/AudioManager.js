@@ -4,8 +4,8 @@ class AudioManager extends Phaser.Scene {
     }
 
     preload() {
-        this.load.audio('bgm_DriftWood', './Assets/bgm_DriftWood.mp3');
-        this.load.audio('bgm_ReelingFromCurrent', './Assets/bgm_ReelingFromCurrent.wav');
+        this.load.audio('bgm_DriftWood', './Assets/AudioFiles/bgm_DriftWood.mp3');
+        this.load.audio('bgm_ReelingFromCurrent', './Assets/AudioFiles/bgm_ReelingFromCurrent.wav');
     }
 
     create() {
