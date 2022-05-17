@@ -18,6 +18,7 @@ class Day extends Phaser.Scene {
         this.load.image('trees', './Assets/Trees.png');
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
+        //this.load.image(this.load.image('dayFish', './Assets/dayFish.png');
 
     }
 
@@ -57,6 +58,7 @@ class Day extends Phaser.Scene {
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
         this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
+        //this.fish = this.add.sprite(game.config.width/2, game.config.height/6 - borderUISize - borderPadding,'dayFish').setOrigin(0.5, 0);
         
 
         //overlay
@@ -203,6 +205,16 @@ class Day extends Phaser.Scene {
         }
 
         if(this.player.x - .5*this.player.width < this.boat.x - .5*this.boat.width){
+            this.fishCaught(this.fish);
+        }
+    }
+
+    fishCaught(fish) {
+        //play catch anim
+        //this.catch.anim.play();
+        //play present fish anim
+        //this.present.anum.play
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.scene.start('cloudScene'); //win
             this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
