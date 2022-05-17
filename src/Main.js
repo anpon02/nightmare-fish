@@ -3,14 +3,14 @@ let config = {
     width: 640,
     height: 480,
 
-    scene: [ Menu, Day, Cloud, Rain, Night, Over, CutOne, AudioManager ]
+    scene: [ Menu, Day, Cloud, Rain, Night, Over, CutOne, AudioManager, CutTwo ]
 }
 
 //game declaration
 let game = new Phaser.Game(config);
 
 //reserve key vars
-let keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE, keyESC, keyC, keySHIFT, keyENTER;
+let keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE, keyESC, keyC, keySHIFT, keyENTER, keyN, keyR;
 
 let gamewidth= game.config.width;
 let gameheight= game.config.height;

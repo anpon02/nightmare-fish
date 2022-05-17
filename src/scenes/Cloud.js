@@ -112,7 +112,7 @@ class Cloud extends Phaser.Scene {
         this.water.anims.play('water', 1, true);
         this.lanternglow.anims.play('lanternglow', 1, true);
 
-        console.log(this.lantern.y);
+        //console.log(this.lantern.y);
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +278;
         this.lantern.y= 4* Math.sin(this.timer) +240;

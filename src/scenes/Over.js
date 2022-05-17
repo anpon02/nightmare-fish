@@ -5,20 +5,21 @@ class Over extends Phaser.Scene {
 
     create() {
         this.add.text(20, 20, "OVER SCENE");
-        this.add.text(game.config.width/2, game.config.height/2, "PRESS 'SPACE' TO RESTART 'ESC' TO MAIN MENU").setOrigin(0.5, 0);
+        this.add.text(game.config.width/2, game.config.height/2, "PRESS 'R' TO RESTART 'ESC' TO MAIN MENU").setOrigin(0.5, 0);
 
         //define keys
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         this.dayRestbgm = this.sound.add('bgm_DriftWood')
     }
 
     update() {
         this.game.sound.stopAll();
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+        if (Phaser.Input.Keyboard.JustDown(keyR)) {
             console.log("Over to Day");
             this.scene.start(goback);
             if (goback == 'dayScene'){

@@ -18,8 +18,7 @@ class Day extends Phaser.Scene {
         this.load.image('trees', './Assets/Trees.png');
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
-        //this.load.image(this.load.image('dayFish', './Assets/dayFish.png');
-
+        this.load.image('DayFish', './Assets/Fish/DayFish.png');
     }
 
     create() {
@@ -42,6 +41,7 @@ class Day extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
 
         //place spritesheets
@@ -58,7 +58,8 @@ class Day extends Phaser.Scene {
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
         this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
-        //this.fish = this.add.sprite(game.config.width/2, game.config.height/6 - borderUISize - borderPadding,'dayFish').setOrigin(0.5, 0);
+        //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
+        this.fish = this.add.sprite(game.config.width/1.25, 350,'DayFish').setOrigin(0.5, 0);
         
 
         //overlay
@@ -72,6 +73,7 @@ class Day extends Phaser.Scene {
         this.spaceText.alpha= 0;
         this.carefulText.alpha = 0;
         this.fallText.alpha = 0;
+        this.fish.alpha = 0;
 
         //hook variable
         this.hookX=0;
@@ -83,6 +85,7 @@ class Day extends Phaser.Scene {
         this.move = false;
         this.spacePressed= false;
         this.badInput= false;
+        this.won = false;
 
         this.timer= 0;
 
@@ -111,7 +114,7 @@ class Day extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('menuScene');
+            this.scene.start('twoScene');
         }
 
         //text manager
@@ -144,7 +147,7 @@ class Day extends Phaser.Scene {
         }
 
         //cast mechanic
-        if (this.cast && !this.move) {
+        if (this.cast && !this.move && !this.won) {
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
@@ -157,7 +160,7 @@ class Day extends Phaser.Scene {
                     this.game.sound.stopAll();
                     this.dayActionbgm.play();
                 }
-                else if (this.castTimer == -6000 && !this.move) {
+                else if (this.castTimer == -6000 && !this.move && !this.won) {
                     //play death
                     this.scene.start('overScene');
                     this.dayActionbgm.stop();
@@ -207,16 +210,22 @@ class Day extends Phaser.Scene {
         if(this.player.x - .5*this.player.width < this.boat.x - .5*this.boat.width){
             this.fishCaught(this.fish);
         }
-    }
 
-    fishCaught(fish) {
-        //play catch anim
-        //this.catch.anim.play();
-        //play present fish anim
-        //this.present.anum.play
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+        if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
             this.scene.start('cloudScene'); //win
             this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
+    }
+
+    fishCaught(fish) {
+        this.player.x = 280;
+        this.fish.alpha = 1;
+        this.won = true;
+        this.move = false;
+        //play catch anim
+        //this.catch.anim.play();
+        //math thing for fish sprite movement???????
+        //play present fish anim
+        //this.present.anim.play();
     }
 }
