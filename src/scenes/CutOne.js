@@ -147,12 +147,12 @@ class CutOne extends Phaser.Scene {
 
 
         //im sorry my code looks like this
-         this.time.addEvent({delay: 5000, callback: () => {
+         this.time.addEvent({delay: 2000, callback: () => {
             //opening shot to missing poster cut, changes alphas to transition to new scene
             this.background.alpha=1;
             this.pole.alpha=1;
             this.paperSheet.alpha=1;
-            this.time.addEvent({delay: 10000, callback: () => { 
+            this.time.addEvent({delay: 5000, callback: () => { 
                 //starts walking animation on screen    
                 this.walk1.alpha=1;
                 this.walk1.anims.play('walk1', 1, true);
@@ -183,7 +183,7 @@ class CutOne extends Phaser.Scene {
         }, callbackScope: this, loop: false}); 
 
         //new scene
-        this.time.addEvent({delay: 40000, callback: () => {
+        this.time.addEvent({delay: 32000, callback: () => {
             this.cameras.main.pan(
                 0,
                 0,
@@ -194,12 +194,12 @@ class CutOne extends Phaser.Scene {
             this.boat2.alpha=1;
             this.walk2.alpha=1;
 
-            this.time.addEvent({delay: 3000, callback: () => {
+            this.time.addEvent({delay: 2000, callback: () => {
                 this.walk2.anims.play('walk2', 1, true); 
             }, callbackScope: this, loop: false});
         }, callbackScope: this, loop: false});
 
-        this.time.addEvent({delay: 55000, callback: () => {
+        this.time.addEvent({delay: 45000, callback: () => {
             this.backgroundblink.alpha=1;
             this.shops.alpha=1;
             this.sailor.alpha=1;
@@ -217,7 +217,7 @@ class CutOne extends Phaser.Scene {
 
         }, callbackScope: this, loop: false});
 
-        this.time.addEvent({delay: 75000, callback: () => {
+        this.time.addEvent({delay: 68000, callback: () => {
             this.scene.start('dayScene');
         }, callbackScope: this, loop: false});
     }  
