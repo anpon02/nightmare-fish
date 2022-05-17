@@ -86,9 +86,14 @@ class Day extends Phaser.Scene {
 
         this.timer= 0;
 
+
+        // Daytime Music
         this.dayMusic = this.sound.add('bgm_DriftWood');
         this.dayActionbgm = this.sound.add('bgm_ReelingFromCurrent');
         this.dayActionbgm.loop = true;
+
+        // line Reeling Sfx
+        this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
     }
 
     update() {
@@ -178,6 +183,7 @@ class Day extends Phaser.Scene {
             
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
+                this.sfx_reel1.play()
             }
             //incorrect input
             else{

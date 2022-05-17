@@ -12,6 +12,12 @@ class Menu extends Phaser.Scene {
 
         this.load.audio('bgm_DriftWood', './Assets/bgm_DriftWood.mp3');
         this.load.audio('bgm_ReelingFromCurrent', './Assets/bgm_ReelingFromCurrent.wav');
+
+        this.load.audio('sfx_lineReeling1', './Assets/sfx_lineReeling1.mp3');
+        this.load.audio('sfx_lineReeling2', './Assets/sfx_lineReeling2.mp3');
+        this.load.audio('sfx_lineReeling3', './Assets/sfx_lineReeling3.mp3');
+        this.load.audio('sfx_lineReeling4', './Assets/sfx_lineReeling4.mp3');
+        this.load.audio('sfx_lineReeling5', './Assets/sfx_lineReeling5.mp3');
     }
 
     create() {
