@@ -8,7 +8,8 @@ class Day extends Phaser.Scene {
         this.load.image('cText', './Assets/TutorialText/cText.png');
         this.load.image('spaceText', './Assets/TutorialText/spaceText.png');
         this.load.image('carefulText', './Assets/TutorialText/beCareful.png');
-        this.load.image('fallText', './Assets/TutorialText/dontFallIn.png')
+        this.load.image('fallText', './Assets/TutorialText/dontFallIn.png');
+        this.load.image('mashText', './Assets/TutorialText/mashSpace.png');
         this.load.image('caught', './Assets/caughtMessage.png');
         this.load.image('barGreen', './Assets/bar_green.png');
         this.load.image('barRed', './Assets/bar_red.png');
@@ -58,6 +59,7 @@ class Day extends Phaser.Scene {
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
         this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
+        this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, game.config.height/6 - borderUISize - borderPadding,'dayFish').setOrigin(0.5, 0);
         
 
@@ -72,6 +74,7 @@ class Day extends Phaser.Scene {
         this.spaceText.alpha= 0;
         this.carefulText.alpha = 0;
         this.fallText.alpha = 0;
+        this.mashText.alpha= 0;
 
         //hook variable
         this.hookX=0;
@@ -82,6 +85,8 @@ class Day extends Phaser.Scene {
         this.caughtSprite.alpha = 0;
         this.move = false;
         this.spacePressed= false;
+        this.spaceDelay = false;
+
         this.badInput= false;
 
         this.timer= 0;
@@ -125,6 +130,18 @@ class Day extends Phaser.Scene {
         }
         else{
             this.spaceText.alpha -= .005;
+        }
+
+        if(this.spacePressed && !this.spaceDelay){
+            this.time.addEvent({delay: 1500, callback: () => {
+                this.mashText.alpha += .005;
+            }, callbackScope: this, loop: false});
+            this.time.addEvent({delay: 6500, callback: () => {
+                this.spaceDelay = true;
+            }, callbackScope: this, loop: false});
+        }
+        else{
+            this.mashText.alpha -= .005;
         }
 
         if(this.badInput){
