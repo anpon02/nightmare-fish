@@ -135,14 +135,14 @@ class Day extends Phaser.Scene {
 
         if(this.spacePressed && !this.spaceDelay){
             this.time.addEvent({delay: 1500, callback: () => {
-                this.mashText.alpha += .005;
+                //this.mashText.alpha += .005;
             }, callbackScope: this, loop: false});
             this.time.addEvent({delay: 6500, callback: () => {
                 this.spaceDelay = true;
             }, callbackScope: this, loop: false});
         }
         else{
-            this.mashText.alpha -= .005;
+            //this.mashText.alpha -= .005;
         }
 
         if(this.badInput){
