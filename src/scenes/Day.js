@@ -100,6 +100,9 @@ class Day extends Phaser.Scene {
 
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
+
+        // line fail sfx
+        this.sfx_reelFail = this.sound.add('sfx_lineCrack');
     }
 
     update() {
@@ -201,12 +204,13 @@ class Day extends Phaser.Scene {
             
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
-                this.sfx_reel1.play()
+                this.sfx_reel1.play();
             }
             //incorrect input
             else{
                 this.badInput= true;
                 this.player.x += 40;
+                this.sfx_reelFail.play();
             }
         }
 

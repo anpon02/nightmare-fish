@@ -12,12 +12,20 @@ class Menu extends Phaser.Scene {
 
         this.load.audio('bgm_DriftWood', './Assets/AudioFiles/bgm_DriftWood.mp3');
         this.load.audio('bgm_ReelingFromCurrent', './Assets/AudioFiles/bgm_ReelingFromCurrent.wav');
+        this.load.audio('bgm_ReelingFromFog', './Assets/AudioFiles/bgm_ReelingFromCurrent(Fog).mp3');
 
+        this.load.audio('sfx_startMenu', './Assets/AudioFiles/sfx_startMenu.wav');
         this.load.audio('sfx_lineReeling1', './Assets/AudioFiles/sfx_lineReeling1.mp3');
         this.load.audio('sfx_lineReeling2', './Assets/AudioFiles/sfx_lineReeling2.mp3');
         this.load.audio('sfx_lineReeling3', './Assets/AudioFiles/sfx_lineReeling3.mp3');
         this.load.audio('sfx_lineReeling4', './Assets/AudioFiles/sfx_lineReeling4.mp3');
         this.load.audio('sfx_lineReeling5', './Assets/AudioFiles/sfx_lineReeling5.mp3');
+
+        // Borrowed and edited free audio (ZapSplat):
+        this.load.audio('bgsfx_rain', './Assets/AudioFiles/bgsfx_rain.mp3');
+        this.load.audio('bgsfx_beach', './Assets/AudioFiles/bgsfx_beach.mp3');
+
+        this.load.audio('sfx_lineCrack', './Assets/AudioFiles/sfx_lineCrack.mp3');
     }
 
     create() {
@@ -59,6 +67,7 @@ class Menu extends Phaser.Scene {
           }
 
         this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
+        this.sound.play('bgsfx_beach');
     }
 
     update() {
@@ -70,14 +79,17 @@ class Menu extends Phaser.Scene {
             console.log("Menu to Day");
             this.scene.start('cutoneScene');
             console.log("MOOS");
+            this.game.sound.stopAll();
             this.dayMusic.play();
             //replace with cutscene ^
         }
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             console.log("Begin Game");
             this.fade= true;
+            this.sound.play('sfx_startMenu');
             this.time.addEvent({delay: 5000, callback: () => {
                 this.scene.start('cutoneScene');
+                this.game.sound.stopAll();
                 this.dayMusic.play();
             }, callbackScope: this, loop: false});
         }

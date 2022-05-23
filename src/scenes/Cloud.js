@@ -92,6 +92,21 @@ class Cloud extends Phaser.Scene {
         this.move = false;
 
         this.timer=0;
+
+        let backgroundConfig = {
+            loop: true,
+            volume: 1,
+          }
+
+        this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
+        this.fogActionbgm = this.sound.add('bgm_ReelingFromFog');
+        this.fogActionbgm.loop = true;
+
+        // line Reeling Sfx
+        this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
+
+        // line fail sfx
+        this.sfx_reelFail = this.sound.add('sfx_lineCrack');
     }
 
     update() {
@@ -130,10 +145,13 @@ class Cloud extends Phaser.Scene {
                     this.caughtSprite.alpha = 0;
                     this.move= true;
                     console.log("start reeling");
+                    this.game.sound.stopAll();
+                    this.fogActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
                     //play death
                     this.scene.start('overScene');
+                    this.game.sound.stopAll();
                 }
             }
         }
@@ -154,15 +172,20 @@ class Cloud extends Phaser.Scene {
             this.lanternglow.alpha = 1- this.fog.alpha;
         }
         
-        //input checks hook
+        //input checks for hook
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
             //correct input
+            this.spacePressed= true;
+            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
+                this.sfx_reel1.play();
             }
             //incorrect input
             else{
+                this.badInput= true;
                 this.player.x += 40;
+                this.sfx_reelFail.play();
             }
         }
 
