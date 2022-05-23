@@ -8,6 +8,7 @@ class Cloud extends Phaser.Scene {
         this.load.image('lantern', './Assets/Fog/lantern.png');
         this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
         this.load.image('hook', './Assets/hook.png');
+        this.load.image('lanternUI', './Assets/Fog/lanternUI.png');
         this.load.image('caught', './Assets/caughtMessage.png');
         this.load.image('barGreen', './Assets/bar_green.png');
         this.load.image('greenHoriz', './Assets/Fog/lanternGreen.png');
@@ -54,6 +55,7 @@ class Cloud extends Phaser.Scene {
         //place spritesheets
         this.background = this.add.tileSprite(0, 0, gamewidth, gameheight, 'bg').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, gamewidth, gameheight, 'trees').setOrigin(0, 0);
+        this.lanternglow = this.add.sprite(130, game.config.height/2,'lanternglow').setOrigin(0.5, 0.5);
         this.lantern = this.add.sprite(130,game.config.height/2 -5,'lantern').setOrigin(0.5, 0.5);
         this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'player').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
@@ -66,8 +68,7 @@ class Cloud extends Phaser.Scene {
 
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
-        this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lantern').setOrigin(0.5, 0.5);
-        this.lanternglow = this.add.sprite(130, game.config.height/2,'lanternglow').setOrigin(0.5, 0.5);
+        this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lanternUI').setOrigin(0.5, 0.5);
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
         //overlay

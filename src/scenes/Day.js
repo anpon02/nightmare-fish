@@ -59,6 +59,7 @@ class Day extends Phaser.Scene {
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
         this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
+        this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
         this.fish = this.add.sprite(game.config.width/1.25, 350,'DayFish').setOrigin(0.5, 0);
         
@@ -73,6 +74,7 @@ class Day extends Phaser.Scene {
         this.cText.alpha= 0;
         this.spaceText.alpha= 0;
         this.carefulText.alpha = 0;
+        this.mashText.alpha = 0;
         this.fallText.alpha = 0;
         this.fish.alpha = 0;
 
@@ -89,6 +91,7 @@ class Day extends Phaser.Scene {
 
         this.badInput= false;
         this.won = false;
+        this.lost= false;
 
         this.timer= 0;
 
@@ -138,14 +141,14 @@ class Day extends Phaser.Scene {
 
         if(this.spacePressed && !this.spaceDelay){
             this.time.addEvent({delay: 1500, callback: () => {
-                //this.mashText.alpha += .005;
+                this.mashText.alpha += .005;
             }, callbackScope: this, loop: false});
             this.time.addEvent({delay: 6500, callback: () => {
                 this.spaceDelay = true;
             }, callbackScope: this, loop: false});
         }
         else{
-            //this.mashText.alpha -= .005;
+            this.mashText.alpha -= .005;
         }
 
         if(this.badInput){
@@ -165,7 +168,7 @@ class Day extends Phaser.Scene {
         }
 
         //cast mechanic
-        if (this.cast && !this.move && !this.won) {
+        if (this.cast && !this.move && !this.won && !this.lost) {
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
@@ -197,8 +200,9 @@ class Day extends Phaser.Scene {
             this.hookX+=.01; //controls hook speed
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
         }
+
         //input checks
-        if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move && !this.lost) {
             //correct input
             this.spacePressed= true;
             
@@ -215,18 +219,28 @@ class Day extends Phaser.Scene {
         }
 
         //player moves towards the edge of the boat
-        if (this.move) {
+        if (this.move && !this.lost) {
             this.player.x += .075;
+
+            //impliment random pulling to add sense of danger later
+
         }
 
         //conditionals for winning and losing
-        if(this.player.x + .5*this.player.width > this.boat.x + .5*this.boat.width){
-            this.cast = false
-            this.scene.start('overScene'); //lose
-            this.dayActionbgm.stop();
+        if(this.player.x + .5*this.player.width + 15 > this.boat.x + .5*this.boat.width){
+            this.cast = false;
+            this.lost= true;
+            //play death animation
+
+            //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
+            this.time.addEvent({delay: 2000, callback: () => {
+                this.dayActionbgm.stop();
+                this.scene.start('overScene'); //lose
+            }, callbackScope: this, loop: false});
+
         }
 
-        if(this.player.x - .5*this.player.width < this.boat.x - .5*this.boat.width){
+        if(this.player.x - .5*this.player.width - 15 < this.boat.x - .5*this.boat.width){
             this.fishCaught(this.fish);
         }
 
@@ -246,5 +260,12 @@ class Day extends Phaser.Scene {
         //math thing for fish sprite movement???????
         //play present fish anim
         //this.present.anim.play();
-    }
+
+        //get rid of later
+        this.time.addEvent({delay: 2000, callback: () => {
+            this.dayActionbgm.stop();
+            this.scene.start('cloudScene'); //lose
+        }, callbackScope: this, loop: false});
+
+      }
 }
