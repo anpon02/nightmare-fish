@@ -20,6 +20,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_lineReeling3', './Assets/AudioFiles/sfx_lineReeling3.mp3');
         this.load.audio('sfx_lineReeling4', './Assets/AudioFiles/sfx_lineReeling4.mp3');
         this.load.audio('sfx_lineReeling5', './Assets/AudioFiles/sfx_lineReeling5.mp3');
+        this.load.audio('sfx_lineCast', './Assets/AudioFiles/sfx_lineCast.mp3');
 
         // Borrowed and edited free audio (ZapSplat):
         this.load.audio('bgsfx_rain', './Assets/AudioFiles/bgsfx_rain.mp3');

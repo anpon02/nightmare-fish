@@ -95,6 +95,7 @@ class Day extends Phaser.Scene {
 
         this.timer= 0;
 
+        this.casted = false;
 
         // Daytime Music
         this.dayMusic = this.sound.add('bgm_DriftWood');
@@ -193,6 +194,7 @@ class Day extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
             this.cText.alpha = 0;
             this.cast = true;
+            this.sound.play('sfx_lineCast');
         }
         
         //UI movement

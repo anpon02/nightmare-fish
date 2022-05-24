@@ -157,9 +157,11 @@ class Cloud extends Phaser.Scene {
             }
         }
 
+        // initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
             this.caughtSprite.alpha = 0;
             this.cast = true;
+            this.sound.play('sfx_lineCast');
         }
         
         //UI movement and fog increase
