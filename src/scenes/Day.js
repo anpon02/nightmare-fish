@@ -40,7 +40,7 @@ class Day extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('water', {start: 0, end: 11, first: 0}), frameRate: 3
         });
 
-        //player cast
+        //player idle
         this.anims.create({
             key: 'player_idle',
             frames: this.anims.generateFrameNames('playerAtlas', {
@@ -50,8 +50,9 @@ class Day extends Phaser.Scene {
                 suffix: '',
                 zeroPad: 4
             }),
-            frameRate: 15,
+            frameRate: 2,
             repeat: -1,
+            yoyo: true,
         });
 
         //player cast
@@ -64,8 +65,37 @@ class Day extends Phaser.Scene {
                 suffix: '',
                 zeroPad: 4
             }),
-            frameRate: 15,
+            frameRate: 6,
+            //repeat: -1,
+        });
+
+        //player reel
+        this.anims.create({
+            key: 'player_reel',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_reel_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
             repeat: -1,
+        });
+
+        //player miss
+        this.anims.create({
+            key: 'player_miss',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_miss_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            repeat: -1,
+            yoyo: true,
         });
 
         //define key (use keyRight to switch scenes for now)
@@ -144,7 +174,6 @@ class Day extends Phaser.Scene {
     update() {
         //animations
         this.overlay.anims.play('overlay', 1, true);
-        this.player.anims.play('player_cast', true);
         this.water.anims.play('water', 1, true);
 
         this.timer += .005;
@@ -212,6 +241,8 @@ class Day extends Phaser.Scene {
                     this.caughtSprite.alpha = 0;
                     this.move= true;
                     console.log("start reeling");
+                    this.player.anims.play('player_cast', false);
+                    this.player.anims.play('player_reel', true);
                     this.game.sound.stopAll();
                     this.dayActionbgm.play();
                 }
@@ -223,9 +254,14 @@ class Day extends Phaser.Scene {
             }
         }
 
+        if (!this.cast&& !this.move && !this.won && !this.lost) {
+            this.player.anims.play('player_idle', true);
+        }
+
         //initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
-            //this.player.anims.play('player_cast', true);
+            this.player.anims.play('player_idle', false);
+            this.player.anims.play('player_cast', true);
             this.cText.alpha = 0;
             this.cast = true;
             this.sound.play('sfx_lineCast');
@@ -244,15 +280,17 @@ class Day extends Phaser.Scene {
             
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
+                this.player.anims.play('player_reel', true);
                 this.sfx_reel1.play();
             }
             //incorrect input
             else{
                 this.badInput= true;
+                this.player.anims.play('player_miss', true);
                 this.player.x += 40;
                 this.sfx_reelFail.play();
             }
-        }
+        }   
 
         //player moves towards the edge of the boat
         if (this.move && !this.lost) {
