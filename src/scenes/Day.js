@@ -68,6 +68,20 @@ class Day extends Phaser.Scene {
             repeat: -1,
         });
 
+        //player cast
+        this.anims.create({
+            key: 'player_idle',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_idle_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+
         //define key (use keyRight to switch scenes for now)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -80,7 +94,7 @@ class Day extends Phaser.Scene {
         //place spritesheets
         this.background = this.add.tileSprite(0, 0, gamewidth, gameheight, 'bg').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, gamewidth, gameheight, 'trees').setOrigin(0, 0);
-        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'player').setOrigin(0.5, 0);
+        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'playerAtlas', 'player_idle').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
@@ -144,6 +158,7 @@ class Day extends Phaser.Scene {
     update() {
         //animations
         this.overlay.anims.play('overlay', 1, true);
+        //this.player.anims.play('player_cast', true);
         this.water.anims.play('water', 1, true);
 
         this.timer += .005;
