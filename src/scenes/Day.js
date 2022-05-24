@@ -20,12 +20,16 @@ class Day extends Phaser.Scene {
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('DayFish', './Assets/Fish/DayFish.png');
+
+        //load json
+        this.load.atlas('playerAtlas', 'playerAtlas.png', 'playermap.json');
     }
 
     create() {
         goback = 'dayScene';
         this.add.text(20, 20, "DAY SCENE!");
 
+        //create animations
         this.anims.create({
             key: 'overlay',
             frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
@@ -34,6 +38,34 @@ class Day extends Phaser.Scene {
         this.anims.create({
             key: 'water',
             frames: this.anims.generateFrameNumbers('water', {start: 0, end: 11, first: 0}), frameRate: 3
+        });
+
+        //player miss
+        this.anims.create({
+            key: 'player_miss',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_miss_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+
+        //player cast
+        this.anims.create({
+            key: 'player_cast',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_cast_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 15,
+            repeat: -1,
         });
 
         //define key (use keyRight to switch scenes for now)
@@ -170,6 +202,7 @@ class Day extends Phaser.Scene {
 
         //cast mechanic
         if (this.cast && !this.move && !this.won && !this.lost) {
+            this.player.anims.play('player_cast', true);
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
