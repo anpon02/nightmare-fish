@@ -108,6 +108,26 @@ class Cloud extends Phaser.Scene {
 
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
+
+        //cicada sfx
+        this.cicada1 = this.sound.add('sfx_cicada1');
+        this.cicada1.volume = 0.05;
+        this.cicada2 = this.sound.add('sfx_cicada2');
+        this.cicada2.volume = 0.05;
+
+        // random cicada audio events
+        this.randCicadaSFX = this.time.addEvent({delay: 7000, callback: () => { this.randNum= Math.floor(Math.random()*3);
+            if(this.randNum == 0){
+                this.cicada1.play();
+            }
+            if(this.randNum == 1 ){
+                this.cicada2.play();
+            }
+            if(this.randNum == 2){
+                console.log('nothin');
+            }
+            console.log("CICADAPLAY:" + this.randNum);
+          }, callbackScope: this, loop: true});
     }
 
     update() {

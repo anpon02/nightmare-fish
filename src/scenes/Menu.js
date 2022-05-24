@@ -27,6 +27,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('bgsfx_beach', './Assets/AudioFiles/bgsfx_beach.mp3');
 
         this.load.audio('sfx_lineCrack', './Assets/AudioFiles/sfx_lineCrack.mp3');
+        this.load.audio('sfx_cicada1', './Assets/AudioFiles/sfx_cicada1.mp3');
+        this.load.audio('sfx_cicada2', './Assets/AudioFiles/sfx_cicada2.mp3');
     }
 
     create() {
