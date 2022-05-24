@@ -93,6 +93,41 @@ class Cloud extends Phaser.Scene {
         this.move = false;
 
         this.timer=0;
+
+        let backgroundConfig = {
+            loop: true,
+            volume: 1,
+          }
+
+        this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
+        this.fogActionbgm = this.sound.add('bgm_ReelingFromFog');
+        this.fogActionbgm.loop = true;
+
+        // line Reeling Sfx
+        this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
+
+        // line fail sfx
+        this.sfx_reelFail = this.sound.add('sfx_lineCrack');
+
+        //cicada sfx
+        this.cicada1 = this.sound.add('sfx_cicada1');
+        this.cicada1.volume = 0.05;
+        this.cicada2 = this.sound.add('sfx_cicada2');
+        this.cicada2.volume = 0.05;
+
+        // random cicada audio events
+        this.randCicadaSFX = this.time.addEvent({delay: 7000, callback: () => { this.randNum= Math.floor(Math.random()*3);
+            if(this.randNum == 0){
+                this.cicada1.play();
+            }
+            if(this.randNum == 1 ){
+                this.cicada2.play();
+            }
+            if(this.randNum == 2){
+                console.log('nothin');
+            }
+            console.log("CICADAPLAY:" + this.randNum);
+          }, callbackScope: this, loop: true});
     }
 
     update() {
@@ -131,17 +166,22 @@ class Cloud extends Phaser.Scene {
                     this.caughtSprite.alpha = 0;
                     this.move= true;
                     console.log("start reeling");
+                    this.game.sound.stopAll();
+                    this.fogActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
                     //play death
                     this.scene.start('overScene');
+                    this.game.sound.stopAll();
                 }
             }
         }
 
+        // initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
             this.caughtSprite.alpha = 0;
             this.cast = true;
+            this.sound.play('sfx_lineCast');
         }
         
         //UI movement and fog increase
@@ -155,15 +195,20 @@ class Cloud extends Phaser.Scene {
             this.lanternglow.alpha = 1- this.fog.alpha;
         }
         
-        //input checks hook
+        //input checks for hook
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move) {
             //correct input
+            this.spacePressed= true;
+            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
+                this.sfx_reel1.play();
             }
             //incorrect input
             else{
+                this.badInput= true;
                 this.player.x += 40;
+                this.sfx_reelFail.play();
             }
         }
 
