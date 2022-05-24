@@ -40,34 +40,6 @@ class Day extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('water', {start: 0, end: 11, first: 0}), frameRate: 3
         });
 
-        //player miss
-        this.anims.create({
-            key: 'player_miss',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_miss_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 15,
-            repeat: -1,
-        });
-
-        //player cast
-        this.anims.create({
-            key: 'player_cast',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_cast_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 15,
-            repeat: -1,
-        });
-
         //player cast
         this.anims.create({
             key: 'player_idle',
