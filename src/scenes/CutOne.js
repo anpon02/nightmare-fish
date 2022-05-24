@@ -9,7 +9,7 @@ class CutOne extends Phaser.Scene {
         this.load.spritesheet('lake', './Assets/CutSceneOne/lake.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 2});
 
         this.load.image('background2', './Assets/CutSceneOne/background_openingscene.png');
-        this.load.image('pole','./Assets/CutSceneOne/pole.png')
+        this.load.image('pole','./Assets/CutSceneOne/pole.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.spritesheet('paperSheet', './Assets/CutSceneOne/paperSheet.png', {frameWidth: 1436, frameHeight: 887, startFrame: 0, endFrame: 3});
         this.load.spritesheet('paperWind', './Assets/CutSceneOne/paperWind.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 9});
