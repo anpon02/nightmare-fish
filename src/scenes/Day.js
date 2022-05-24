@@ -54,19 +54,19 @@ class Day extends Phaser.Scene {
             repeat: -1,
         });
 
-        // //player cast
-        // this.anims.create({
-        //     key: 'player_cast',
-        //     frames: this.anims.generateFrameNames('playerAtlas', {
-        //         prefix: 'player_cast_',
-        //         start: 1,
-        //         end: 3,
-        //         suffix: '',
-        //         zeroPad: 4
-        //     }),
-        //     frameRate: 15,
-        //     repeat: -1,
-        // });
+        //player cast
+        this.anims.create({
+            key: 'player_cast',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_cast_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
 
         //define key (use keyRight to switch scenes for now)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -203,7 +203,6 @@ class Day extends Phaser.Scene {
 
         //cast mechanic
         if (this.cast && !this.move && !this.won && !this.lost) {
-            //this.player.anims.play('player_cast', true);
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
@@ -226,6 +225,7 @@ class Day extends Phaser.Scene {
 
         //initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
+            //this.player.anims.play('player_cast', true);
             this.cText.alpha = 0;
             this.cast = true;
             this.sound.play('sfx_lineCast');
