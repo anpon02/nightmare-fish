@@ -20,9 +20,9 @@ class Day extends Phaser.Scene {
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('DayFish', './Assets/Fish/DayFish.png');
-
+        
         //load json
-        this.load.atlas('playerAtlas', 'playerAtlas.png', 'playermap.json');
+        this.load.atlas('playerAtlas', './Assets/playerAtlas.png', './Assets/playermap.json');
     }
 
     create() {
