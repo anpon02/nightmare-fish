@@ -90,14 +90,14 @@ class Menu extends Phaser.Scene {
             console.log("Begin Game");
             this.fade= true;
             this.sound.play('sfx_startMenu');
-            this.time.addEvent({delay: 5000, callback: () => {
+            this.time.addEvent({delay: 3000, callback: () => {
                 this.scene.start('cutoneScene');
                 this.game.sound.stopAll();
                 this.dayMusic.play();
             }, callbackScope: this, loop: false});
         }
         if(this.fade){
-            this.titleCard.alpha-= .0025;
+            this.titleCard.alpha-= .005;
         }
     }
 }

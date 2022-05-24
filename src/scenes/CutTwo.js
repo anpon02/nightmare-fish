@@ -31,6 +31,11 @@ class CutTwo extends Phaser.Scene {
         this.overlay.scaleY= 1.5;
         this.overlay.alpha= .25;
 
+        //blackscreen
+        this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
+
+        this.timer= 0;
+
         //define keys
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
@@ -40,7 +45,9 @@ class CutTwo extends Phaser.Scene {
             console.log("two to day");
             this.scene.start('dayScene');
         }
+        this.timer += .001;
 
+        this.blackScreen.alpha -= .005;
         this.overlay.anims.play('overlay', 1, true);
     }
 

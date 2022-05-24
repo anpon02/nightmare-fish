@@ -134,7 +134,7 @@ class Day extends Phaser.Scene {
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         this.cText = this.add.sprite(game.config.width/2, game.config.height - 80, 'cText').setOrigin(0.5, 0);
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
-        this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
+        this.carefulText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 -140 , 'carefulText').setOrigin(0.5, 0);
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
         this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
