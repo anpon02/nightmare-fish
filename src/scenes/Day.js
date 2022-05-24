@@ -98,6 +98,21 @@ class Day extends Phaser.Scene {
             yoyo: true,
         });
 
+        //player catch
+        this.anims.create({
+            key: 'player_catch',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_catch_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            repeat: -1,
+            yoyo: true,
+        });
+
         //define key (use keyRight to switch scenes for now)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -329,7 +344,7 @@ class Day extends Phaser.Scene {
         this.fish.alpha = 1;
         this.won = true;
         this.move = false;
-        //play catch anim
+        this.player.anims.play('player_catch', true);
         //this.catch.anim.play();
         //math thing for fish sprite movement???????
         //play present fish anim
