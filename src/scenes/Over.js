@@ -32,6 +32,14 @@ class Over extends Phaser.Scene {
 
         this.dayRestbgm = this.sound.add('bgm_DriftWood')
 
+        this.game.sound.stopAll();
+        this.sound.play('bgm_gameOver');
+    }
+
+    update() {
+        
+
+
         this.timer= 0;
     }
 
@@ -40,13 +48,10 @@ class Over extends Phaser.Scene {
 
         this.timer += .005;
         this.gameoverHat.y= 4* Math.sin(this.timer);
-        
-        this.game.sound.stopAll();
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             console.log("Over to Day");
             this.scene.start(goback);
             if (goback == 'dayScene'){
-                this.dayRestbgm.play();
             } 
         }
 

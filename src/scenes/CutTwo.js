@@ -83,6 +83,7 @@ class CutTwo extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("two to day");
             this.scene.start('dayScene');
+            this.game.sound.stopAll();
         }
         this.timer += .001;
 

@@ -179,6 +179,10 @@ class Day extends Phaser.Scene {
         this.dayMusic = this.sound.add('bgm_DriftWood');
         this.dayActionbgm = this.sound.add('bgm_ReelingFromCurrent');
         this.dayActionbgm.loop = true;
+        this.dayActionbgm.volume = 0;
+        this.dayMusic.play();
+
+        this.actionOn = false;
 
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
@@ -268,8 +272,6 @@ class Day extends Phaser.Scene {
                     console.log("start reeling");
                     this.player.anims.play('player_cast', false);
                     this.player.anims.play('player_reel', true);
-                    this.game.sound.stopAll();
-                    this.dayActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move && !this.won) {
                     //play death
@@ -285,12 +287,27 @@ class Day extends Phaser.Scene {
 
         //initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
-            this.player.anims.play('player_idle', false);
-            this.player.anims.play('player_cast', true);
-            this.cText.alpha = 0;
-            this.cast = true;
-            this.sound.play('sfx_lineCast');
+            if (!this.actionOn){
+                this.actionOn = true;
+                this.player.anims.play('player_idle', false);
+                this.player.anims.play('player_cast', true);
+                this.cText.alpha = 0;
+                this.cast = true;
+                this.sound.play('sfx_lineCast');
+                this.tweens.add({
+                    targets: this.dayMusic,
+                    volume: 0,
+                    duration: 2500
+                });
+                this.dayActionbgm.play();
+                this.tweens.add({
+                    targets: this.dayActionbgm,
+                    volume: 1,
+                    duration: 3000
+                });
+            }
         }
+
         
         //UI movement
         if (this.move) { 
