@@ -52,7 +52,6 @@ class Over extends Phaser.Scene {
             console.log("Over to Day");
             this.scene.start(goback);
             if (goback == 'dayScene'){
-                this.dayRestbgm.play();
             } 
         }
 
