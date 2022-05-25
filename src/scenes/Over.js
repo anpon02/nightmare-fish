@@ -51,6 +51,7 @@ class Over extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             console.log("Over to Day");
             this.scene.start(goback);
+            this.game.sound.stopAll();
             if (goback == 'dayScene'){
             } 
         }
@@ -58,10 +59,12 @@ class Over extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             console.log("Over to Menu");
             this.scene.start('menuScene');
+            this.game.sound.stopAll();
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('nightScene');
+            this.game.sound.stopAll();
         }
     }
 }

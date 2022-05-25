@@ -212,10 +212,12 @@ class Day extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Day to Cloud");
             this.scene.start('cloudScene');
+            this.game.sound.stopAll();
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('twoScene');
+            this.game.sound.stopAll();
         }
 
         //text manager
