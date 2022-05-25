@@ -100,8 +100,11 @@ class Cloud extends Phaser.Scene {
           }
 
         this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
-        this.fogActionbgm = this.sound.add('bgm_ReelingFromFog');
-        this.fogActionbgm.loop = true;
+        this.fogIntro = this.sound.add('bgm_RFFIntro');
+        this.fogIntro.volume = 0;
+
+        this.fogLoop = this.sound.add('bgm_RFFLoop');
+                this.fogLoop.loop = true;
 
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
@@ -167,7 +170,7 @@ class Cloud extends Phaser.Scene {
                     this.move= true;
                     console.log("start reeling");
                     this.game.sound.stopAll();
-                    this.fogActionbgm.play();
+                    //this.fogActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
                     //play death
