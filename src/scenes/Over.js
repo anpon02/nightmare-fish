@@ -15,10 +15,12 @@ class Over extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         this.dayRestbgm = this.sound.add('bgm_DriftWood')
+        this.game.sound.stopAll();
+        this.sound.play('bgm_gameOver');
     }
 
     update() {
-        this.game.sound.stopAll();
+        
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             console.log("Over to Day");
             this.scene.start(goback);
