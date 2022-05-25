@@ -4,6 +4,7 @@ class Day extends Phaser.Scene {
     }
 
     preload() {
+
         this.load.image('hook', './Assets/hook.png');
         this.load.image('cText', './Assets/TutorialText/cText.png');
         this.load.image('spaceText', './Assets/TutorialText/spaceText.png');
@@ -20,12 +21,16 @@ class Day extends Phaser.Scene {
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('DayFish', './Assets/Fish/DayFish.png');
+        
+        //load json
+        this.load.atlas('playerAtlas', './Assets/playerAtlas.png', './Assets/playermap.json');
     }
 
     create() {
         goback = 'dayScene';
         this.add.text(20, 20, "DAY SCENE!");
 
+        //create animations
         this.anims.create({
             key: 'overlay',
             frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
@@ -34,6 +39,79 @@ class Day extends Phaser.Scene {
         this.anims.create({
             key: 'water',
             frames: this.anims.generateFrameNumbers('water', {start: 0, end: 11, first: 0}), frameRate: 3
+        });
+
+        //player idle
+        this.anims.create({
+            key: 'player_idle',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_idle_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 2,
+            repeat: -1,
+            yoyo: true,
+        });
+
+        //player cast
+        this.anims.create({
+            key: 'player_cast',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_cast_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            //repeat: -1,
+        });
+
+        //player reel
+        this.anims.create({
+            key: 'player_reel',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_reel_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            repeat: -1,
+        });
+
+        //player miss
+        this.anims.create({
+            key: 'player_miss',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_miss_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            repeat: -1,
+            yoyo: true,
+        });
+
+        //player catch
+        this.anims.create({
+            key: 'player_catch',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_catch_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            repeat: -1,
+            yoyo: true,
         });
 
         //define key (use keyRight to switch scenes for now)
@@ -48,7 +126,7 @@ class Day extends Phaser.Scene {
         //place spritesheets
         this.background = this.add.tileSprite(0, 0, gamewidth, gameheight, 'bg').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, gamewidth, gameheight, 'trees').setOrigin(0, 0);
-        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'player').setOrigin(0.5, 0);
+        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'playerAtlas', 'player_idle').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
@@ -57,7 +135,7 @@ class Day extends Phaser.Scene {
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         this.cText = this.add.sprite(game.config.width/2, game.config.height - 80, 'cText').setOrigin(0.5, 0);
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
-        this.carefulText = this.add.sprite(game.config.width/2 -200, game.config.height/2 -40 , 'carefulText').setOrigin(0.5, 0);
+        this.carefulText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 -140 , 'carefulText').setOrigin(0.5, 0);
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
         this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
@@ -179,6 +257,8 @@ class Day extends Phaser.Scene {
                     this.caughtSprite.alpha = 0;
                     this.move= true;
                     console.log("start reeling");
+                    this.player.anims.play('player_cast', false);
+                    this.player.anims.play('player_reel', true);
                     this.game.sound.stopAll();
                     this.dayActionbgm.play();
                 }
@@ -190,8 +270,14 @@ class Day extends Phaser.Scene {
             }
         }
 
+        if (!this.cast&& !this.move && !this.won && !this.lost) {
+            this.player.anims.play('player_idle', true);
+        }
+
         //initial cast
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
+            this.player.anims.play('player_idle', false);
+            this.player.anims.play('player_cast', true);
             this.cText.alpha = 0;
             this.cast = true;
             this.sound.play('sfx_lineCast');
@@ -210,15 +296,17 @@ class Day extends Phaser.Scene {
             
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 15;
+                this.player.anims.play('player_reel', true);
                 this.sfx_reel1.play();
             }
             //incorrect input
             else{
                 this.badInput= true;
+                this.player.anims.play('player_miss', true);
                 this.player.x += 40;
                 this.sfx_reelFail.play();
             }
-        }
+        }   
 
         //player moves towards the edge of the boat
         if (this.move && !this.lost) {
@@ -257,7 +345,7 @@ class Day extends Phaser.Scene {
         this.fish.alpha = 1;
         this.won = true;
         this.move = false;
-        //play catch anim
+        this.player.anims.play('player_catch', true);
         //this.catch.anim.play();
         //math thing for fish sprite movement???????
         //play present fish anim

@@ -4,12 +4,14 @@ class CutOne extends Phaser.Scene {
     }
 
     preload(){
+        this.load.image('blackScreen', './Assets/BlackScreen.png');
+
         this.load.image('hills','./Assets/CutSceneOne/hills.png');
         this.load.image('sunrise','./Assets/CutSceneOne/sunrise.png');
         this.load.spritesheet('lake', './Assets/CutSceneOne/lake.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 2});
 
         this.load.image('background2', './Assets/CutSceneOne/background_openingscene.png');
-        this.load.image('pole','./Assets/CutSceneOne/pole.png')
+        this.load.image('pole','./Assets/CutSceneOne/pole.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.spritesheet('paperSheet', './Assets/CutSceneOne/paperSheet.png', {frameWidth: 1436, frameHeight: 887, startFrame: 0, endFrame: 3});
         this.load.spritesheet('paperWind', './Assets/CutSceneOne/paperWind.png', {frameWidth: 1434, frameHeight: 885, startFrame: 0, endFrame: 9});
@@ -118,7 +120,10 @@ class CutOne extends Phaser.Scene {
         this.sailor= this.add.sprite(0,0,'sailor_1').setOrigin(0,0);
         this.p= this.add.sprite(0,0,'player_blink').setOrigin(0,0);
 
+
         //alpha electric boogaloo
+        this.fadeout = false;
+
         this.background.alpha=0;
         this.pole.alpha=0;
         this.paperSheet.alpha=0;
@@ -144,6 +149,10 @@ class CutOne extends Phaser.Scene {
         this.overlay.scaleX= 3;
         this.overlay.scaleY= 1.5;
         this.overlay.alpha= .25;
+
+        //blackscreen
+        this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
+        this.blackScreen.alpha= 0;
 
 
         //im sorry my code looks like this
@@ -217,8 +226,12 @@ class CutOne extends Phaser.Scene {
 
         }, callbackScope: this, loop: false});
 
+        this.time.addEvent({delay: 64000, callback: () => {
+            this.fadeout= true;
+        }, callbackScope: this, loop: false});
+
         this.time.addEvent({delay: 68000, callback: () => {
-            this.scene.start('dayScene');
+            this.scene.start('twoScene');
         }, callbackScope: this, loop: false});
     }  
     
@@ -260,6 +273,10 @@ class CutOne extends Phaser.Scene {
             this.p.x += .4;
             this.shops.x -= .4;
             this.sailor.x -=.4;
+        }
+
+        if(this.fadeout){
+            this.blackScreen.alpha += .005;
         }
 
     }
