@@ -4,7 +4,6 @@ class Day extends Phaser.Scene {
     }
 
     preload() {
-
         this.load.image('hook', './Assets/hook.png');
         this.load.image('cText', './Assets/TutorialText/cText.png');
         this.load.image('spaceText', './Assets/TutorialText/spaceText.png');
@@ -139,7 +138,7 @@ class Day extends Phaser.Scene {
         this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
         this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
-        this.fish = this.add.sprite(game.config.width/1.25, 350,'DayFish').setOrigin(0.5, 0);
+        this.fish = this.add.sprite(640, 480,'DayFish').setOrigin(0.5, 0.5);
         
 
         //overlay
@@ -172,6 +171,7 @@ class Day extends Phaser.Scene {
         this.lost= false;
 
         this.timer= 0;
+        this.fishtimer= 430;
 
         this.casted = false;
 
@@ -188,12 +188,21 @@ class Day extends Phaser.Scene {
     }
 
     update() {
+
         //animations
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
 
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +278;
+
+        if(this.won == true){
+            if(this.fishtimer >= 135){
+                this.fishtimer -= 3;
+            }
+            this.fish.x= this.fishtimer;
+            this.fish.y= (1/100) * Math.pow(this.fishtimer -220 , 2) +100;
+        }
 
         //temp
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
@@ -330,29 +339,27 @@ class Day extends Phaser.Scene {
 
         }
 
-        if(this.player.x - .5*this.player.width - 15 < this.boat.x - .5*this.boat.width){
-            this.fishCaught(this.fish);
+        if(this.player.x - .5*this.player.width -25 < this.boat.x - .5*this.boat.width){
+            this.fishCaught(this.fish); //summon the fish
+            this.player.x= (this.boat.x - .5*this.boat.width) + .5*this.player.width +25; //set player position
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
             this.scene.start('cloudScene'); //win
             this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
+        
     }
 
     fishCaught(fish) {
-        this.player.x = 280;
         this.fish.alpha = 1;
         this.won = true;
         this.move = false;
         this.player.anims.play('player_catch', true);
-        //this.catch.anim.play();
-        //math thing for fish sprite movement???????
-        //play present fish anim
-        //this.present.anim.play();
+    
 
         //get rid of later
-        this.time.addEvent({delay: 2000, callback: () => {
+        this.time.addEvent({delay: 4000, callback: () => {
             this.dayActionbgm.stop();
             this.scene.start('cloudScene'); //lose
         }, callbackScope: this, loop: false});
