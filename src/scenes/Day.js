@@ -4,6 +4,7 @@ class Day extends Phaser.Scene {
     }
 
     preload() {
+
         this.load.image('hook', './Assets/hook.png');
         this.load.image('cText', './Assets/TutorialText/cText.png');
         this.load.image('spaceText', './Assets/TutorialText/spaceText.png');

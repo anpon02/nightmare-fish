@@ -4,6 +4,11 @@ class CutTwo extends Phaser.Scene {
     }
 
     preload(){
+        // load plugin
+        //this.load.scenePlugin('rexplugin', './Assets/rexuiplugin.min.js', 'rexUI', 'rexUI');
+        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+
+        //load sprites
         this.load.image('cutsceneTwoBG','./Assets/CutSceneTwo/cutsceneTwoBackground.png');
         this.load.image('cutsceneTwoPier','./Assets/CutSceneTwo/cutsceneTwoPier.png');
         this.load.image('cutsceneTwoPlayer','./Assets/CutSceneTwo/cutsceneTwoPlayer.png');
@@ -23,6 +28,40 @@ class CutTwo extends Phaser.Scene {
         this.TwoPlayer = this.add.sprite(440,250,'cutsceneTwoPlayer').setOrigin(0.5,1);
         this.TwoSailor = this.add.sprite(200,250,'cutsceneTwoSailor').setOrigin(0.5,1);
         this.textBox = this.add.sprite(0,280,'TextBox').setOrigin(0,0);
+
+        let textStyle = {
+            color: '#aaa',
+            wordWrap: {
+                width: 500,
+                callback: null,
+                callbackScope: null,
+                useAdvancedWrap: false
+            }
+        };
+        console.log("Width is: " + textStyle.wordWrap.width);
+
+        var textObj = this.add.text(10, 290, 'howre vgrth bgbyjnmuk ,kytrr gbnu6i76 u5yb5y6uj ik6u5y4t4ty uik6u5y4t 3retyh6ujuytrwdy', textStyle);
+
+        // var textBox2 = this.rexUI.add.textBox({
+        //     x: 280,
+        //     y:0,
+
+        //     width: 200,
+        //     height: 50,
+
+        //     text: textObj,
+
+        //     space: {
+        //         left: 0,
+        //         right: 0,
+        //         top: 0,
+        //         bottom: 0,
+        
+        //         icon: 0,
+        //         text: 0,
+        //     },
+
+        // });
 
         //overlay
         this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
