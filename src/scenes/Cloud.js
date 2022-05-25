@@ -143,9 +143,11 @@ class Cloud extends Phaser.Scene {
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lanternUI').setOrigin(0.5, 0.5);
+        
+        this.fish = this.add.sprite(700, 600,'FogFish').setOrigin(0.5, 0.5);
+        
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
-        this.fish = this.add.sprite(700, 600,'FogFish').setOrigin(0.5, 0.5);
 
 
         //overlay
@@ -247,7 +249,7 @@ class Cloud extends Phaser.Scene {
         }
 
         //cast mechanic
-        if (this.cast && !this.move) {
+        if (this.cast && !this.move  && !this.won && !this.lost) {
             this.castTimer -= 25
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
@@ -365,8 +367,7 @@ class Cloud extends Phaser.Scene {
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
-            this.dayActionbgm.stop();
-            this.scene.start('cloudScene'); //lose
+            this.scene.start('rainScene'); //lose
         }, callbackScope: this, loop: false});
 
     }
