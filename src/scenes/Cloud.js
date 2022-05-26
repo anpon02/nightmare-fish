@@ -190,8 +190,12 @@ class Cloud extends Phaser.Scene {
           }
 
         this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
-        this.fogActionbgm = this.sound.add('bgm_ReelingFromFog');
-        this.fogActionbgm.loop = true;
+        this.dayMusic.play();
+        this.fogIntro = this.sound.add('bgm_RFFIntro');
+        this.fogIntro.volume = 0;
+
+        this.fogLoop = this.sound.add('bgm_RFFLoop');
+                this.fogLoop.loop = true;
 
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
@@ -229,6 +233,7 @@ class Cloud extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('cloudScene');
+            this.game.sound.stopAll();
         }
 
         this.fog.tilePositionX -= this.speed/4;
@@ -277,8 +282,7 @@ class Cloud extends Phaser.Scene {
                     console.log("start reeling");
                     this.player.anims.play('player_cast', false);
                     this.player.anims.play('player_reel', true);
-                    this.game.sound.stopAll();
-                    this.fogActionbgm.play();
+                    //this.fogActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
                     //play death
@@ -300,6 +304,19 @@ class Cloud extends Phaser.Scene {
             this.player.anims.play('player_cast', true);
             this.cast = true;
             //music stuff here
+            this.sound.play('sfx_lineCast');
+            this.tweens.add({
+                targets: this.dayMusic,
+                volume: 0,
+                duration: 2500
+            });
+            this.fogIntro.play();
+            this.tweens.add({
+                targets: this.fogIntro,
+                volume: 1,
+                duration: 3000
+            });
+            this.loopTimer = this.time.delayedCall(5915, () => {this.fogLoop.play();}, null, this);
         }
     }
         

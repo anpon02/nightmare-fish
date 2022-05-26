@@ -13,6 +13,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('bgm_DriftWood', './Assets/AudioFiles/bgm_DriftWood.mp3');
         this.load.audio('bgm_ReelingFromCurrent', './Assets/AudioFiles/bgm_ReelingFromCurrent.wav');
         this.load.audio('bgm_ReelingFromFog', './Assets/AudioFiles/bgm_ReelingFromCurrent(Fog).mp3');
+        this.load.audio('bgm_RFFIntro', './Assets/AudioFiles/bgm_ReelingFromCurrent(Fog)Intro.mp3');
+        this.load.audio('bgm_RFFLoop', './Assets/AudioFiles/bgm_ReelingFromCurrent(Fog)Loop.mp3');
         this.load.audio('bgm_gameOver', './Assets/AudioFiles/bgm_gameOver.mp3');
 
         this.load.audio('sfx_startMenu', './Assets/AudioFiles/sfx_startMenu.wav');
@@ -75,8 +77,7 @@ class Menu extends Phaser.Scene {
         this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
         this.beachSFX = this.sound.add('bgsfx_beach', backgroundConfig);
         //this.sound.play('bgsfx_beach');
-        this.beachSFX.play();
-        
+        this.beachSFX.play();    
     }
 
     update() {
