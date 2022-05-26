@@ -261,7 +261,7 @@ class Day extends Phaser.Scene {
 
         //cast mechanic
         if (this.cast && !this.move && !this.won && !this.lost) {
-            this.castTimer -= 25
+            this.castTimer -= 25;
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
                 this.caughtSprite.alpha = 1;
