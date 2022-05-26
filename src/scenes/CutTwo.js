@@ -33,6 +33,7 @@ class CutTwo extends Phaser.Scene {
         this.TwoSailor = this.add.sprite(200,250,'cutsceneTwoSailor').setOrigin(0.5,1);
         this.textBox = this.add.sprite(0,280,'TextBox').setOrigin(0,0);
 
+<<<<<<< HEAD
         // let textStyle = {
         //     color: '#aaa',
         //     wordWrap: {
@@ -67,6 +68,35 @@ class CutTwo extends Phaser.Scene {
                 right: 0,
                 top: 0,
                 bottom: 0,
+=======
+        let textStyle = {
+            color: '#aaa',
+            wordWrap: {
+                width: 500,
+                callback: null,
+                callbackScope: null,
+                useAdvancedWrap: false
+            }
+        };
+        console.log("Width is: " + textStyle.wordWrap.width);
+
+        var textObj = this.add.text(10, 290, 'PLACEHOLDER. press right arrow to continue.', textStyle);
+
+        // var textBox2 = this.rexUI.add.textBox({
+        //     x: 280,
+        //     y:0,
+
+        //     width: 200,
+        //     height: 50,
+
+        //     text: textObj,
+
+        //     space: {
+        //         left: 0,
+        //         right: 0,
+        //         top: 0,
+        //         bottom: 0,
+>>>>>>> 46a5561dafd3f500fcd04c393756b8aa9e2e2b0d
         
                 icon: 0,
                 text: 0,

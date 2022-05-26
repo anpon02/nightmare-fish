@@ -130,12 +130,12 @@ class Day extends Phaser.Scene {
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
-        this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
+        this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/2 - 100,'caught').setOrigin(0.5, 0.5);
         this.cText = this.add.sprite(game.config.width/2, game.config.height - 80, 'cText').setOrigin(0.5, 0);
         this.spaceText = this.add.sprite(game.config.width/2, game.config.height/2 - 140, 'spaceText').setOrigin(0.5, 0);
-        this.carefulText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 -140 , 'carefulText').setOrigin(0.5, 0);
-        this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 - 40, 'fallText').setOrigin(0.5, 0);
+        this.carefulText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 -30 , 'carefulText').setOrigin(0.5, 0);
+        this.fallText = this.add.sprite(game.config.width/2 + 200, game.config.height/2 +70, 'fallText').setOrigin(0.5, 0);
         this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
         this.fish = this.add.sprite(640, 480,'DayFish').setOrigin(0.5, 0.5);
@@ -146,6 +146,10 @@ class Day extends Phaser.Scene {
         this.overlay.setBlendMode(Phaser.BlendModes.ADD);
         this.overlay.scaleX= 1.5;
         this.overlay.alpha= .25;
+
+        //blackscreen
+        this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
+        this.blackScreen.alpha= 1;
 
         //alphas
         this.cText.alpha= 0;
@@ -169,6 +173,7 @@ class Day extends Phaser.Scene {
         this.badInput= false;
         this.won = false;
         this.lost= false;
+        this.fade= true;
 
         this.timer= 0;
         this.fishtimer= 430;
@@ -199,6 +204,12 @@ class Day extends Phaser.Scene {
 
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +278;
+        if(this.fade){
+            this.blackScreen.alpha -= .005;
+        }
+        else{
+            this.blackScreen.alpha += .005;
+        }
 
         if(this.won == true){
             if(this.fishtimer >= 135){
@@ -222,7 +233,7 @@ class Day extends Phaser.Scene {
 
         //text manager
         
-        if(!this.cast){
+        if(!this.cast && !this.win && !this.lose){
             this.cText.alpha += .005;
         }
 
@@ -266,8 +277,11 @@ class Day extends Phaser.Scene {
             this.castTimer -= 25;
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
+                //caught message
                 this.caughtSprite.alpha = 1;
-                //run function that says "CAUGHT!" or something on screen
+                this.caughtSprite.scaleX= .1 * Math.sin(10* this.timer) + .90;
+                this.caughtSprite.scaleY= .1 * Math.sin(10* this.timer) + .90;
+
                 if(Phaser.Input.Keyboard.JustDown(keyC)){
                     this.caughtSprite.alpha = 0;
                     this.move= true;
@@ -361,6 +375,9 @@ class Day extends Phaser.Scene {
         if(this.player.x - .5*this.player.width -25 < this.boat.x - .5*this.boat.width){
             this.fishCaught(this.fish); //summon the fish
             this.player.x= (this.boat.x - .5*this.boat.width) + .5*this.player.width +25; //set player position
+            this.time.addEvent({delay: 2500, callback: () => {
+                this.fade= false;
+            }, callbackScope: this, loop: false});
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
