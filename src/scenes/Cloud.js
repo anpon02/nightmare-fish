@@ -300,6 +300,7 @@ class Cloud extends Phaser.Scene {
        if (Phaser.Input.Keyboard.JustDown(keyC)) {
         if (!this.actionOn){
             this.actionOn = true;
+            //this.caughtSprite.alpha = 0;
             this.player.anims.play('player_idle', false);
             this.player.anims.play('player_cast', true);
             this.cast = true;
@@ -327,7 +328,7 @@ class Cloud extends Phaser.Scene {
             this.lanternglowY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
             this.lanternUI.y = (140* (Math.sin(2* this.lanternY)) +240);
-            this.fog.alpha += .001;
+            this.fog.alpha += .005;
             this.lanternglow.alpha = 1- this.fog.alpha;
         }
         
@@ -335,7 +336,7 @@ class Cloud extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move && !this.lost) {
             //correct input            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
-                this.player.x -= 15;
+                this.player.x -= 6;
                 this.player.anims.play('player_reel', true);
                 this.sfx_reel1.play();
             }
