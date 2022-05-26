@@ -284,6 +284,7 @@ class Cloud extends Phaser.Scene {
        if (Phaser.Input.Keyboard.JustDown(keyC)) {
         if (!this.actionOn){
             this.actionOn = true;
+            this.caughtSprite.alpha = 0;
             this.player.anims.play('player_idle', false);
             this.player.anims.play('player_cast', true);
             this.cast = true;
