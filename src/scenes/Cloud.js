@@ -165,6 +165,10 @@ class Cloud extends Phaser.Scene {
         this.lanternglow.setBlendMode(Phaser.BlendModes.ADD);
         this.lanternglow.alpha = 1- this.fog.alpha;
 
+        //blackscreen
+        this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
+        this.blackScreen.alpha= 1;
+
         //hook variable
         this.hookX=0;
         this.lanternY = 0;
@@ -183,6 +187,7 @@ class Cloud extends Phaser.Scene {
         this.actionOn = false;
         this.won = false;
         this.lost = false;
+        this.fade= true;
 
         let backgroundConfig = {
             loop: true,
@@ -238,6 +243,12 @@ class Cloud extends Phaser.Scene {
 
         this.fog.tilePositionX -= this.speed/4;
         this.clouds.tilePositionX -= this.speed/32;
+        if(this.fade){
+            this.blackScreen.alpha -= .005;
+        }
+        else{
+            this.blackScreen.alpha += .005;
+        }
 
         
         //animations
@@ -274,8 +285,11 @@ class Cloud extends Phaser.Scene {
             this.castTimer -= 25;
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
+                //caught message
                 this.caughtSprite.alpha = 1;
-                //run function that says "CAUGHT!" or something on screen
+                this.caughtSprite.scaleX= .1 * Math.sin(10* this.timer) + .90;
+                this.caughtSprite.scaleY= .1 * Math.sin(10* this.timer) + .90;
+
                 if(Phaser.Input.Keyboard.JustDown(keyC)){
                     this.caughtSprite.alpha = 0;
                     this.move= true;
@@ -328,7 +342,7 @@ class Cloud extends Phaser.Scene {
             this.lanternglowY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
             this.lanternUI.y = (140* (Math.sin(2* this.lanternY)) +240);
-            this.fog.alpha += .005;
+            this.fog.alpha += .0015;
             this.lanternglow.alpha = 1- this.fog.alpha;
         }
         
@@ -336,7 +350,7 @@ class Cloud extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move && !this.lost) {
             //correct input            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
-                this.player.x -= 6;
+                this.player.x -= 12;
                 this.player.anims.play('player_reel', true);
                 this.sfx_reel1.play();
             }
@@ -384,6 +398,9 @@ class Cloud extends Phaser.Scene {
         if(this.player.x - .5*this.player.width -25 < this.boat.x - .5*this.boat.width){
             this.fishCaught(this.fish); //summon the fish
             this.player.x= (this.boat.x - .5*this.boat.width) + .5*this.player.width +25; //set player position
+            this.time.addEvent({delay: 2500, callback: () => {
+                this.fade= false;
+            }, callbackScope: this, loop: false});
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {

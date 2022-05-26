@@ -40,7 +40,7 @@ class CutTwo extends Phaser.Scene {
         };
         console.log("Width is: " + textStyle.wordWrap.width);
 
-        var textObj = this.add.text(10, 290, 'howre vgrth bgbyjnmuk ,kytrr gbnu6i76 u5yb5y6uj ik6u5y4t4ty uik6u5y4t 3retyh6ujuytrwdy', textStyle);
+        var textObj = this.add.text(10, 290, 'PLACEHOLDER. press right arrow to continue.', textStyle);
 
         // var textBox2 = this.rexUI.add.textBox({
         //     x: 280,
