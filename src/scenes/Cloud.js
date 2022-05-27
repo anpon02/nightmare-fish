@@ -5,6 +5,7 @@ class Cloud extends Phaser.Scene {
 
     preload() {
         this.load.image('shiftText', './Assets/Fog/pressShift.png');
+        this.load.image('fogRolling', './Assets/Fog/fogRolling.png');
         this.load.image('fog', './Assets/Fog/fog.png');
         this.load.image('lantern', './Assets/Fog/lantern.png');
         this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
@@ -139,6 +140,7 @@ class Cloud extends Phaser.Scene {
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'waterFog').setOrigin(0.5, 0);
 
         this.shiftText = this.add.sprite(game.config.width/2, game.config.height/2 - 160, 'shiftText').setOrigin(0.5, 0);
+        this.fogText = this.add.sprite(game.config.width/2, game.config.height - 100, 'fogRolling').setOrigin(0.5, 0);
         
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.redHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'redHoriz').setOrigin(0.5, 0.5);
@@ -180,6 +182,7 @@ class Cloud extends Phaser.Scene {
         this.caughtSprite.alpha = 0;
         this.move = false;
         this.shiftText.alpha=0;
+        this.fogText.alpha=0;
 
         this.timer=0;
         this.fishtimer= 430;
@@ -273,6 +276,10 @@ class Cloud extends Phaser.Scene {
         }
 
         //text manager
+        if(!this.cast && !this.win && !this.lose){
+            this.fogText.alpha += .005;
+        }
+
         if(this.move && !this.shiftPressed){
             this.shiftText.alpha += .005;
         }
@@ -318,6 +325,7 @@ class Cloud extends Phaser.Scene {
             //this.caughtSprite.alpha = 0;
             this.player.anims.play('player_idle', false);
             this.player.anims.play('player_cast', true);
+            this.fogText.alpha = 0;
             this.cast = true;
             //music stuff here
             this.sound.play('sfx_lineCast');
