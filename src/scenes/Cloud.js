@@ -402,11 +402,11 @@ class Cloud extends Phaser.Scene {
             this.time.addEvent({delay: 2500, callback: () => {
                 this.fade= false;
             }, callbackScope: this, loop: false});
+            
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
             this.scene.start('rainScene'); //win
-            this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
     }
 
