@@ -234,6 +234,7 @@ class Cloud extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Cloud to Rain");
             this.scene.start('rainScene');
+            this.game.sound.stopAll();
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
