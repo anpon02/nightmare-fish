@@ -26,6 +26,8 @@ class Rain extends Phaser.Scene {
         this.load.image('FogFish', './Assets/Fish/FogFish.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('overlayRain', './Assets/Rain/overlayRain.png');
+        this.load.spritesheet('rainOverlay', './Assets/Rain/rainOverlay.png', {frameWidth: 200, frameHeight: 100, startFrame: 0, endFrame: 3});
+
 
     }
 
@@ -128,6 +130,11 @@ class Rain extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'rainOverlay',
+            frames: this.anims.generateFrameNumbers('rainOverlay', {start: 0, end: 3, first: 0}), frameRate: 6
+        });
+
+        this.anims.create({
             key: 'lanternglow',
             frames: this.anims.generateFrameNumbers('lanternglow', {start: 0, end: 2, first: 0}), frameRate: 2
         });
@@ -187,6 +194,11 @@ class Rain extends Phaser.Scene {
         this.overlay.scaleX= 1.5;
         this.overlay.alpha= .25;
         this.fog.alpha = 0.25;
+        this.rainOverlay = this.add.sprite(0, 0, 'rainOverlay').setOrigin(0, 0);
+        this.rainOverlay.setBlendMode(Phaser.BlendModes.ADD);
+        this.rainOverlay.scaleX= 4.8;
+        this.rainOverlay.scaleY= 4.8;
+        this.rainOverlay.alpha= .25;
 
         this.lanternglow.setBlendMode(Phaser.BlendModes.ADD);
         this.lanternglow.alpha = 1- this.fog.alpha;
@@ -294,6 +306,7 @@ class Rain extends Phaser.Scene {
         
         //animations
         this.overlay.anims.play('overlay', 1, true);
+        this.rainOverlay.anims.play('rainOverlay', 1, true);
         this.water.anims.play('waterRain', 1, true);
         this.lanternglow.anims.play('lanternglow', 1, true);
         if(this.pulled){
