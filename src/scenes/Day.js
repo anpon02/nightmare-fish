@@ -16,6 +16,7 @@ class Day extends Phaser.Scene {
         this.load.spritesheet('water', './Assets/water.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
         this.load.image('boat', './Assets/boat.png');
         this.load.image('player', './Assets/player.png');
+        this.load.spritesheet('playerDeath', './Assets/playerDeath.png', {frameWidth: 215, frameHeight: 280, startFrame: 0, endFrame: 7});
         this.load.image('trees', './Assets/Trees.png');
         this.load.image('bg', './Assets/background.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
@@ -38,6 +39,13 @@ class Day extends Phaser.Scene {
         this.anims.create({
             key: 'water',
             frames: this.anims.generateFrameNumbers('water', {start: 0, end: 11, first: 0}), frameRate: 3
+        });
+
+        //player death
+
+        this.anims.create({
+            key: 'playerDeath',
+            frames: this.anims.generateFrameNumbers('playerDeath', {start: 0, end: 7, first: 0}), frameRate: 3
         });
 
         //player idle
@@ -128,6 +136,7 @@ class Day extends Phaser.Scene {
         this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'playerAtlas', 'player_idle').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'water').setOrigin(0.5, 0);
+        this.playerDeath = this.add.sprite(game.config.width/2 +245, game.config.height/2- 65,'playerDeath').setOrigin(0.5, 0);
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
@@ -158,6 +167,7 @@ class Day extends Phaser.Scene {
         this.mashText.alpha = 0;
         this.fallText.alpha = 0;
         this.fish.alpha = 0;
+        this.playerDeath.alpha=0;
 
         //hook variable
         this.hookX=0;
@@ -362,7 +372,9 @@ class Day extends Phaser.Scene {
         if(this.player.x + .5*this.player.width + 15 > this.boat.x + .5*this.boat.width){
             this.cast = false;
             this.lost= true;
-            //play death animation
+            this.player.alpha=0;
+            this.playerDeath.alpha=1;
+            this.playerDeath.anims.play('playerDeath', 1, true);
 
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
             this.time.addEvent({delay: 2000, callback: () => {
