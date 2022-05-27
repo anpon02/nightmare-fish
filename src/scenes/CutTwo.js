@@ -1,4 +1,5 @@
-var test = ("Sailor: Goin' fishing?", "Sailor: yo Momma Fishin");
+var text = ["Sailor: Goin' fishing?", "Sailor: Didn't'cha hear? Town's bein' evacuated on account'a all the people goin' missin'.",
+ "Sailor: Nothin' worth risking your life for out on those waters."];
 
 class CutTwo extends Phaser.Scene {
     constructor() {
@@ -7,7 +8,6 @@ class CutTwo extends Phaser.Scene {
 
     preload(){
         // load plugin
-        //this.load.scenePlugin('rexplugin', './Assets/rexuiplugin.min.js', 'rexUI', 'rexUI');
         this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 
         //load sprites
@@ -18,12 +18,12 @@ class CutTwo extends Phaser.Scene {
         this.load.image('cutsceneTwoSunrise','./Assets/CutSceneTwo/cutsceneTwoSunrise.png');
         this.load.image('TextBox','./Assets/CutSceneTwo/TextBox.png'); 
         this.load.image('nextPage', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
-        this.load.bitmapFont('gothic', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.png', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.xml'); 
+        this.load.bitmapFont('gothic', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.png',
+         'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.xml'); 
     }
 
     create() {
         this.add.text(20, 20, "CUT SCENE");
-
 
         //place images
         this.TwoBackground = this.add.sprite(0,0,'cutsceneTwoBG').setOrigin(0,0);
@@ -32,24 +32,9 @@ class CutTwo extends Phaser.Scene {
         this.TwoPlayer = this.add.sprite(440,250,'cutsceneTwoPlayer').setOrigin(0.5,1);
         this.TwoSailor = this.add.sprite(200,250,'cutsceneTwoSailor').setOrigin(0.5,1);
         this.textBox = this.add.sprite(0,280,'TextBox').setOrigin(0,0);
-
-        // let textStyle = {
-        //     color: '#aaa',
-        //     wordWrap: {
-        //         width: 500,
-        //         callback: null,
-        //         callbackScope: null,
-        //         useAdvancedWrap: false
-        //     }
-        // };
-        // console.log("Width is: " + textStyle.wordWrap.width);
-
-        //var textObj = this.add.text(10, 290, 'howre vgrth bgbyjnmuk ,kytrr gbnu6i76 u5yb5y6uj ik6u5y4t4ty uik6u5y4t 3retyh6ujuytrwdy', textStyle);
-        //GetValue(this.config, 'wrapWidth', 0))
-
-
-        this.textBox2 = this.rexUI.add.textBox({
-            x: 20,
+        
+        this.t1 = this.rexUI.add.textBox({
+            x: 30,
             y: 290,
 
             width: 200,
@@ -60,7 +45,7 @@ class CutTwo extends Phaser.Scene {
             iconMask: false,
             action: this.add.image(0, 0, 'nextPage').setTint(0x7B5E57).setVisible(false),
             actionMask: false,
-            text: this.add.bitmapText(0, 0, 'gothic').setFontSize(20).setMaxWidth(620),
+            text: this.add.bitmapText(0, 0, 'gothic').setFontSize(30).setMaxWidth(600),
 
             space: {
                 left: 0,
@@ -70,6 +55,15 @@ class CutTwo extends Phaser.Scene {
         
                 icon: 0,
                 text: 0,
+            },
+
+            page: {
+                pageBreak: '\f\n'
+            },
+
+            typing: { 
+                wrap: false,
+                speed: 333,    
             },
 
         }).setOrigin(0).layout();
@@ -89,6 +83,9 @@ class CutTwo extends Phaser.Scene {
         //define keys
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        //
+        this.count = 0;
     }
 
     update() {
@@ -97,14 +94,16 @@ class CutTwo extends Phaser.Scene {
             this.scene.start('dayScene');
             this.game.sound.stopAll();
         }
-
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.textBox2.start(test, 20);
+            this.t1.start(text[this.count], 20);
+            this.count++;
+            if (this.count == text.length()) {
+                this.scene.start('dayScene');
+                this.game.sound.stopAll();
+            }
         }
 
         this.blackScreen.alpha -= .005;
         this.overlay.anims.play('overlay', 1, true);
     }
-
-
 }
