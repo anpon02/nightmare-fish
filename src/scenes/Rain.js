@@ -211,11 +211,11 @@ class Rain extends Phaser.Scene {
 
         this.dayMusic = this.sound.add('bgm_DriftWood', backgroundConfig);
         this.dayMusic.play();
-        this.fogIntro = this.sound.add('bgm_RFFIntro');
-        this.fogIntro.volume = 0;
+        this.rainIntro = this.sound.add('bgm_RFRIntro');
+        this.rainIntro.volume = 0;
 
-        this.fogLoop = this.sound.add('bgm_RFFLoop');
-                this.fogLoop.loop = true;
+        this.rainLoop = this.sound.add('bgm_RFRLoop');
+                this.rainLoop.loop = true;
 
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
@@ -228,6 +228,12 @@ class Rain extends Phaser.Scene {
         this.cicada1.volume = 0.05;
         this.cicada2 = this.sound.add('sfx_cicada2');
         this.cicada2.volume = 0.05;
+
+        // Rain background noise
+        this.rainBG = this.sound.add('bgsfx_rain');
+        this.rainBG.loop = true;
+        this.rainBG.volume = 0.3;
+        this.rainBG.play();
 
         // random cicada audio events
         this.randCicadaSFX = this.time.addEvent({delay: 7000, callback: () => { this.randNum= Math.floor(Math.random()*3);
@@ -251,7 +257,8 @@ class Rain extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('cloudScene');
+            this.scene.start('rainScene');
+            this.game.sound.stopAll();
         }
        
         this.fog.tilePositionX -= this.speed/4;
@@ -343,13 +350,13 @@ class Rain extends Phaser.Scene {
                 volume: 0,
                 duration: 2500
             });
-            this.fogIntro.play();
+            this.rainIntro.play();
             this.tweens.add({
-                targets: this.fogIntro,
+                targets: this.rainIntro,
                 volume: 1,
                 duration: 3000
             });
-            this.loopTimer = this.time.delayedCall(5915, () => {this.fogLoop.play();}, null, this);
+            this.loopTimer = this.time.delayedCall(5890, () => {this.rainLoop.play();}, null, this);
         }
     }
         
