@@ -350,7 +350,7 @@ class Cloud extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move && !this.lost) {
             //correct input            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
-                this.player.x -= 12;
+                this.player.x -= 15;
                 this.player.anims.play('player_reel', true);
                 this.sfx_reel1.play();
             }
@@ -369,7 +369,7 @@ class Cloud extends Phaser.Scene {
 
             //correct input
             if(this.lanternUI.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lanternUI.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
-                this.fog.alpha -= .25;  
+                this.fog.alpha -= .30;  
             }
             //incorrect input
             else{
@@ -418,7 +418,7 @@ class Cloud extends Phaser.Scene {
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
-            this.scene.start('rainScene'); //lose
+            this.scene.start('rainScene'); //win
         }, callbackScope: this, loop: false});
 
     }
