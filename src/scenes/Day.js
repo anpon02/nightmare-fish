@@ -69,7 +69,7 @@ class Day extends Phaser.Scene {
             frames: this.anims.generateFrameNames('playerAtlas', {
                 prefix: 'player_cast_',
                 start: 1,
-                end: 3,
+                end: 4,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -106,13 +106,28 @@ class Day extends Phaser.Scene {
             yoyo: true,
         });
 
+        //player pull in 
+        this.anims.create({
+            key: 'player_pull',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_catch_',
+                start: 1,
+                end: 2,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            //repeat: -1,
+            //yoyo: true,
+        });
+
         //player catch
         this.anims.create({
             key: 'player_catch',
             frames: this.anims.generateFrameNames('playerAtlas', {
                 prefix: 'player_catch_',
-                start: 1,
-                end: 3,
+                start: 3,
+                end: 5,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -179,6 +194,7 @@ class Day extends Phaser.Scene {
         this.move = false;
         this.spacePressed= false;
         this.spaceDelay = false;
+        this.pulled=false;
 
         this.badInput= false;
         this.won = false;
@@ -211,7 +227,10 @@ class Day extends Phaser.Scene {
         //animations
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
-
+        if(this.pulled){
+            this.player.anims.play('player_catch', true);
+        }
+        
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +278;
         if(this.fade){
@@ -403,8 +422,12 @@ class Day extends Phaser.Scene {
         this.fish.alpha = 1;
         this.won = true;
         this.move = false;
-        this.player.anims.play('player_catch', true);
-    
+        if(!this.pulled){
+            this.player.anims.play('player_pull', true);
+        }
+        this.time.addEvent({delay: 500, callback: () => {
+            this.pulled= true;
+        }, callbackScope: this, loop: false});
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
