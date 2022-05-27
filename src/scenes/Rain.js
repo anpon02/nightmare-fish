@@ -5,11 +5,13 @@ class Rain extends Phaser.Scene {
 
     preload() {
         this.load.image('enterText', './Assets/Rain/pressEnter.png');
+        this.load.image('rainText', './Assets/Rain/boatSlippery.png');
         this.load.image('fogRain', './Assets/Rain/fogRain.png');
         this.load.image('lantern', './Assets/Fog/lantern.png');
         this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
         this.load.image('hook', './Assets/hook.png');
         this.load.image('lanternUI', './Assets/Fog/lanternUI.png');
+        this.load.image('bucket', './Assets/Rain/bucketUI.png');
         this.load.image('caught', './Assets/caughtMessage.png');
         this.load.image('barGreen', './Assets/bar_green.png');
         this.load.image('greenHoriz', './Assets/Fog/lanternGreen.png');
@@ -127,6 +129,7 @@ class Rain extends Phaser.Scene {
         keySHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //speed for fog movement
         this.speed = 2;
@@ -142,16 +145,20 @@ class Rain extends Phaser.Scene {
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'waterRain').setOrigin(0.5, 0);
 
         this.enterText = this.add.sprite(game.config.width/2, game.config.height/2 - 160, 'enterText').setOrigin(0.5, 0);
+        this.rainText = this.add.sprite(game.config.width/2, game.config.height - 110, 'rainText').setOrigin(0.5, 0);
         
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.redHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'redHoriz').setOrigin(0.5, 0.5);
+        this.redBucket = this.add.sprite(game.config.width- game.config.width/17, game.config.height/2,'redHoriz').setOrigin(0.5, 0.5);
         this.barGreen = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barGreen').setOrigin(0.5, 0);
         this.greenHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'greenHoriz').setOrigin(0.5, 0.5);
+        this.greenBucket = this.add.sprite(game.config.width- game.config.width/17, game.config.height/2,'greenHoriz').setOrigin(0.5, 0.5);
 
         this.caughtSprite = this.add.sprite(game.config.width/2, game.config.height/4 - borderUISize - borderPadding,'caught').setOrigin(0.5, 0);
         this.hook = this.add.sprite(game.config.width/2, game.config.height/9 - borderUISize - borderPadding,'hook').setOrigin(0.5, 0);
         this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lanternUI').setOrigin(0.5, 0.5);
-        
+        this.bucket = this.add.sprite(game.config.width- game.config.width/17, game.config.height/2,'bucket').setOrigin(0.5, 0.5);
+
         this.fish = this.add.sprite(700, 600,'FogFish').setOrigin(0.5, 0.5);
         
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fogRain').setOrigin(0, 0);
@@ -187,6 +194,8 @@ class Rain extends Phaser.Scene {
         this.caughtSprite.alpha = 0;
         this.move = false;
         this.enterText.alpha=0;
+        this.rainText.alpha=0;
+        this.movespeed= .075;
 
         this.timer=0;
         this.fishtimer= 430;
@@ -252,6 +261,7 @@ class Rain extends Phaser.Scene {
             this.scene.start('rainScene');
             this.game.sound.stopAll();
         }
+       
         this.fog.tilePositionX -= this.speed/4;
         this.clouds.tilePositionX -= this.speed/32;
         if(this.fade){
@@ -283,7 +293,11 @@ class Rain extends Phaser.Scene {
         }
 
         //text manager
-        if(this.move && !this.shiftPressed){
+        if(!this.cast && !this.win && !this.lose){
+            this.rainText.alpha += .005;
+        }
+
+        if(this.move && !this.enterPressed){
             this.enterText.alpha += .005;
         }
         else{
@@ -328,6 +342,7 @@ class Rain extends Phaser.Scene {
             //this.caughtSprite.alpha = 0;
             this.player.anims.play('player_idle', false);
             this.player.anims.play('player_cast', true);
+            this.rainText.alpha = 0;
             this.cast = true;
             //music stuff here
             this.sound.play('sfx_lineCast');
@@ -353,8 +368,17 @@ class Rain extends Phaser.Scene {
             this.lanternglowY += .01;
             this.hook.x = (252* (Math.sin(this.hookX)) +320); //controls hook placement
             this.lanternUI.y = (140* (Math.sin(2* this.lanternY)) +240);
-            this.fog.alpha += .0015;
+            this.bucket.y = (140* (Math.sin(1.5* this.lanternY)) +240);
+            
+            //fog
+            this.fog.alpha += .001;
             this.lanternglow.alpha = 1- this.fog.alpha;
+
+            //increasing movespeed over time
+            if(this.movespeed < .15){
+                this.movespeed += .0001;
+                console.log(this.movespeed);
+            }
         }
         
         //input checks for hook
@@ -376,7 +400,6 @@ class Rain extends Phaser.Scene {
 
         //input checks lantern
         if (Phaser.Input.Keyboard.JustDown(keySHIFT) && this.move) {
-            this.shiftPressed= true;
 
             //correct input
             if(this.lanternUI.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lanternUI.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
@@ -388,9 +411,28 @@ class Rain extends Phaser.Scene {
             }
         }
 
+        //input checks bucket
+        if (Phaser.Input.Keyboard.JustDown(keyENTER) && this.move) {
+            this.enterPressed= true;
+
+            //correct input
+            if(this.bucket.y <= this.greenBucket.y + .5* this.greenBucket.height && this.bucket.y >= this.greenBucket.y - .5* this.greenBucket.height ){
+                if(this.movespeed > .075){
+                    this.movespeed -= .025;
+                }
+            
+            }
+            //incorrect input
+            else{
+                if(this.movespeed < .15){
+                    this.movespeed += .005;
+                }
+            }
+        }
+
         //player moves towards the edge of the boat
         if (this.move && !this.lost) {
-            this.player.x += .075;
+            this.player.x += this.movespeed;
         }
 
         //conditionals for winning and losing
