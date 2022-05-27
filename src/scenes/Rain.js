@@ -143,6 +143,7 @@ class Rain extends Phaser.Scene {
         this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'playerAtlas', 'player_idle').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'waterRain').setOrigin(0.5, 0);
+        this.playerDeath = this.add.sprite(game.config.width/2 +245, game.config.height/2- 65,'playerDeath').setOrigin(0.5, 0);
 
         this.enterText = this.add.sprite(game.config.width/2, game.config.height/2 - 160, 'enterText').setOrigin(0.5, 0);
         this.rainText = this.add.sprite(game.config.width/2, game.config.height - 110, 'rainText').setOrigin(0.5, 0);
@@ -196,6 +197,7 @@ class Rain extends Phaser.Scene {
         this.enterText.alpha=0;
         this.rainText.alpha=0;
         this.movespeed= .075;
+        this.playerDeath.alpha=0;
 
         this.timer=0;
         this.fishtimer= 430;
@@ -377,7 +379,6 @@ class Rain extends Phaser.Scene {
             //increasing movespeed over time
             if(this.movespeed < .15){
                 this.movespeed += .0001;
-                console.log(this.movespeed);
             }
         }
         
@@ -439,7 +440,9 @@ class Rain extends Phaser.Scene {
         if(this.player.x + .5*this.player.width + 15 > this.boat.x + .5*this.boat.width){
             this.cast = false;
             this.lost= true;
-            //play death animation
+            this.player.alpha=0;
+            this.playerDeath.alpha=1;
+            this.playerDeath.anims.play('playerDeath', 1, true);
 
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
             this.time.addEvent({delay: 2000, callback: () => {
