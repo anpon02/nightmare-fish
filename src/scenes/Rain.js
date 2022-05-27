@@ -240,6 +240,9 @@ class Rain extends Phaser.Scene {
 
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
+        // overboard sfx
+        this.sfx_lose = this.sound.add('sfx_loseSplash');
+        this.sfx_lose.volume = 0.2;
 
         //cicada sfx
         this.cicada1 = this.sound.add('sfx_cicada1');
@@ -461,9 +464,16 @@ class Rain extends Phaser.Scene {
             this.player.alpha=0;
             this.playerDeath.alpha=1;
             this.playerDeath.anims.play('playerDeath', 1, true);
+            if (!this.lostSound){
+                this.time.addEvent({delay: 1000, callback: () => {
+                    this.sfx_lose.play();
+                }, callbackScope: this, loop: false});    
+                
+                this.lostSound = true;
+            }
 
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
-            this.time.addEvent({delay: 2000, callback: () => {
+            this.time.addEvent({delay: 2600, callback: () => {
                 this.scene.start('overScene'); //lose
             }, callbackScope: this, loop: false});
 

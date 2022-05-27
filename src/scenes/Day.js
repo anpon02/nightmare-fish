@@ -205,6 +205,7 @@ class Day extends Phaser.Scene {
         this.fishtimer= 430;
 
         this.casted = false;
+        this.lostSound = false;
 
         // Daytime Music
         this.dayMusic = this.sound.add('bgm_DriftWood');
@@ -220,6 +221,10 @@ class Day extends Phaser.Scene {
 
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
+
+        // overboard sfx
+        this.sfx_lose = this.sound.add('sfx_loseSplash');
+        this.sfx_lose.volume = 0.2;
     }
 
     update() {
@@ -394,9 +399,16 @@ class Day extends Phaser.Scene {
             this.player.alpha=0;
             this.playerDeath.alpha=1;
             this.playerDeath.anims.play('playerDeath', 1, true);
+            if (!this.lostSound){
+                this.time.addEvent({delay: 1000, callback: () => {
+                    this.sfx_lose.play();
+                }, callbackScope: this, loop: false});    
+                
+                this.lostSound = true;
+            }
 
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
-            this.time.addEvent({delay: 2000, callback: () => {
+            this.time.addEvent({delay: 2600, callback: () => {
                 this.dayActionbgm.stop();
                 this.scene.start('overScene'); //lose
             }, callbackScope: this, loop: false});
