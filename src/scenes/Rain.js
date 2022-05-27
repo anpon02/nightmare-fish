@@ -30,6 +30,7 @@ class Rain extends Phaser.Scene {
     }
 
     create() {
+        this.game.sound.stopAll();
         goback = 'rainScene';
         this.add.text(20, 20, "RAIN SCENE!");
 
