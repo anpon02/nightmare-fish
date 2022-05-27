@@ -1,5 +1,7 @@
 var text = ["Sailor: Goin' fishing?", "Sailor: Didn't'cha hear? Town's bein' evacuated on account'a all the people goin' missin'.",
- "Sailor: Nothin' worth risking your life for out on those waters."];
+ "Sailor: Nothin' worth risking your life for out on those waters.", "Sailor: ...",
+ "Sailor: You got the look of someone who's made up their mind.", "Sailor: Well, I wish y'luck, friend.", "Sailor: Hope y'find whatch'er lookin' for.", 
+ "Sailor: Just remember t' stay out of the water...", "Sailor: If y'wanna come back, that is."];
 
 class CutTwo extends Phaser.Scene {
     constructor() {
@@ -94,13 +96,14 @@ class CutTwo extends Phaser.Scene {
             this.scene.start('dayScene');
             this.game.sound.stopAll();
         }
+        if (this.count == text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.scene.start('dayScene');
+            this.game.sound.stopAll();
+        }
+
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.t1.start(text[this.count], 20);
             this.count++;
-            if (this.count == text.length()) {
-                this.scene.start('dayScene');
-                this.game.sound.stopAll();
-            }
         }
 
         this.blackScreen.alpha -= .005;
