@@ -1,4 +1,4 @@
-var test = "test string a;sejfna;wejnf;akjefn;awe";
+var test = ("Sailor: Goin' fishing?", "Sailor: yo Momma Fishin");
 
 class CutTwo extends Phaser.Scene {
     constructor() {
@@ -16,7 +16,7 @@ class CutTwo extends Phaser.Scene {
         this.load.image('cutsceneTwoPlayer','./Assets/CutSceneTwo/cutsceneTwoPlayer.png');
         this.load.image('cutsceneTwoSailor','./Assets/CutSceneTwo/cutsceneTwoSailor.png');
         this.load.image('cutsceneTwoSunrise','./Assets/CutSceneTwo/cutsceneTwoSunrise.png');
-        //this.load.image('TextBox','./Assets/CutSceneTwo/TextBox.png'); 
+        this.load.image('TextBox','./Assets/CutSceneTwo/TextBox.png'); 
         this.load.image('nextPage', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
         this.load.bitmapFont('gothic', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.png', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.xml'); 
     }
@@ -49,8 +49,8 @@ class CutTwo extends Phaser.Scene {
 
 
         this.textBox2 = this.rexUI.add.textBox({
-            x: 280,
-            y: 0,
+            x: 20,
+            y: 290,
 
             width: 200,
             height: 50,
@@ -60,7 +60,7 @@ class CutTwo extends Phaser.Scene {
             iconMask: false,
             action: this.add.image(0, 0, 'nextPage').setTint(0x7B5E57).setVisible(false),
             actionMask: false,
-            text: this.add.bitmapText(0, 0, 'gothic').setFontSize(20).setMaxWidth(20),
+            text: this.add.bitmapText(0, 0, 'gothic').setFontSize(20).setMaxWidth(620),
 
             space: {
                 left: 0,
@@ -73,7 +73,6 @@ class CutTwo extends Phaser.Scene {
             },
 
         }).setOrigin(0).layout();
-
 
         //overlay
         this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
