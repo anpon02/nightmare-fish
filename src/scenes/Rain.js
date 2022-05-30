@@ -23,7 +23,7 @@ class Rain extends Phaser.Scene {
         this.load.image('treesRain', './Assets/Rain/treesRain.png');
         this.load.image('cloudsRain', './Assets/Rain/cloudsRain.png');
         this.load.image('bgRain', './Assets/Rain/backgroundRain.png');
-        this.load.image('FogFish', './Assets/Fish/FogFish.png');
+        this.load.image('RainFish', './Assets/Fish/RainFish.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('overlayRain', './Assets/Rain/overlayRain.png');
         this.load.spritesheet('rainOverlay', './Assets/Rain/rainOverlay.png', {frameWidth: 200, frameHeight: 100, startFrame: 0, endFrame: 3});
@@ -182,7 +182,7 @@ class Rain extends Phaser.Scene {
         this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lanternUI').setOrigin(0.5, 0.5);
         this.bucket = this.add.sprite(game.config.width- game.config.width/17, game.config.height/2,'bucket').setOrigin(0.5, 0.5);
 
-        this.fish = this.add.sprite(700, 600,'FogFish').setOrigin(0.5, 0.5);
+        this.fish = this.add.sprite(700, 600,'RainFish').setOrigin(0.5, 0.5);
         
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fogRain').setOrigin(0, 0);
 
