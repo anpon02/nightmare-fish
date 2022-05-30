@@ -256,7 +256,7 @@ class Day extends Phaser.Scene {
         //temp
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Day to Cloud");
-            this.scene.start('cloudScene');
+            this.scene.start('threeScene');
             this.game.sound.stopAll();
         }
 
@@ -424,7 +424,7 @@ class Day extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
-            this.scene.start('cloudScene'); //win
+            this.scene.start('threeScene'); //win
             this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
         
@@ -444,7 +444,7 @@ class Day extends Phaser.Scene {
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
             this.dayActionbgm.stop();
-            this.scene.start('cloudScene'); //lose
+            this.scene.start('threeScene'); //lose
         }, callbackScope: this, loop: false});
 
       }

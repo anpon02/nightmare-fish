@@ -102,6 +102,7 @@ class CutTwo extends Phaser.Scene {
             this.scene.start('dayScene');
             this.game.sound.stopAll();
         }
+        
         if (this.count >= text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.fade=true; 
             this.time.addEvent({delay: 4000, callback: () => {

@@ -290,7 +290,7 @@ class Rain extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('rainScene');
+            this.scene.start('fourScene');
             this.game.sound.stopAll();
         }
        
