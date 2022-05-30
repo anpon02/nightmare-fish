@@ -51,7 +51,7 @@ class Cloud extends Phaser.Scene {
             frames: this.anims.generateFrameNames('playerAtlas', {
                 prefix: 'player_cast_',
                 start: 1,
-                end: 3,
+                end: 4,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -88,13 +88,28 @@ class Cloud extends Phaser.Scene {
             yoyo: true,
         });
 
+        //player pull in 
+        this.anims.create({
+            key: 'player_pull',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_catch_',
+                start: 1,
+                end: 2,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            //repeat: -1,
+            //yoyo: true,
+        });
+
         //player catch
         this.anims.create({
             key: 'player_catch',
             frames: this.anims.generateFrameNames('playerAtlas', {
                 prefix: 'player_catch_',
-                start: 1,
-                end: 3,
+                start: 3,
+                end: 5,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -102,7 +117,6 @@ class Cloud extends Phaser.Scene {
             repeat: -1,
             yoyo: true,
         });
-
         this.anims.create({
             key: 'overlay',
             frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
@@ -213,6 +227,10 @@ class Cloud extends Phaser.Scene {
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
 
+                // overboard sfx
+        this.sfx_lose = this.sound.add('sfx_loseSplash');
+        this.sfx_lose.volume = 0.2;
+
         //cicada sfx
         this.cicada1 = this.sound.add('sfx_cicada1');
         this.cicada1.volume = 0.05;
@@ -249,13 +267,16 @@ class Cloud extends Phaser.Scene {
 
         this.fog.tilePositionX -= this.speed/4;
         this.clouds.tilePositionX -= this.speed/32;
+        if(this.pulled){
+            this.player.anims.play('player_catch', true);
+        }
+
         if(this.fade){
             this.blackScreen.alpha -= .005;
         }
         else{
             this.blackScreen.alpha += .005;
         }
-
         
         //animations
         this.overlay.anims.play('overlay', 1, true);
@@ -400,9 +421,16 @@ class Cloud extends Phaser.Scene {
             this.player.alpha=0;
             this.playerDeath.alpha=1;
             this.playerDeath.anims.play('playerDeath', 1, true);
+            if (!this.lostSound){
+                this.time.addEvent({delay: 1000, callback: () => {
+                    this.sfx_lose.play();
+                }, callbackScope: this, loop: false});    
+                
+                this.lostSound = true;
+            }
             
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
-            this.time.addEvent({delay: 2000, callback: () => {
+            this.time.addEvent({delay: 2600, callback: () => {
                 this.scene.start('overScene'); //lose
             }, callbackScope: this, loop: false});
 
@@ -426,8 +454,13 @@ class Cloud extends Phaser.Scene {
         this.fish.alpha = 1;
         this.won = true;
         this.move = false;
-        this.player.anims.play('player_catch', true);
-    
+        
+        if(!this.pulled){
+            this.player.anims.play('player_pull', true);
+        }
+        this.time.addEvent({delay: 500, callback: () => {
+            this.pulled= true;
+        }, callbackScope: this, loop: false});    
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {

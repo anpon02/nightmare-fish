@@ -18,6 +18,7 @@ class CutTwo extends Phaser.Scene {
         this.load.image('cutsceneTwoPlayer','./Assets/CutSceneTwo/cutsceneTwoPlayer.png');
         this.load.image('cutsceneTwoSailor','./Assets/CutSceneTwo/cutsceneTwoSailor.png');
         this.load.image('cutsceneTwoSunrise','./Assets/CutSceneTwo/cutsceneTwoSunrise.png');
+        this.load.image('continueText','./Assets/CutSceneTwo/continueText.png');
         this.load.image('TextBox','./Assets/CutSceneTwo/TextBox.png'); 
         this.load.image('nextPage', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
         this.load.bitmapFont('gothic', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.png',
@@ -34,10 +35,12 @@ class CutTwo extends Phaser.Scene {
         this.TwoPlayer = this.add.sprite(440,250,'cutsceneTwoPlayer').setOrigin(0.5,1);
         this.TwoSailor = this.add.sprite(200,250,'cutsceneTwoSailor').setOrigin(0.5,1);
         this.textBox = this.add.sprite(0,280,'TextBox').setOrigin(0,0);
+        this.continueText = this.add.sprite(game.config.width/2, game.config.height - 80, 'continueText').setOrigin(0.5, 0);
+
         
         this.t1 = this.rexUI.add.textBox({
             x: 30,
-            y: 290,
+            y: 320,
 
             width: 200,
             height: 50,
@@ -80,7 +83,10 @@ class CutTwo extends Phaser.Scene {
         //blackscreen
         this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
 
+        this.fade= false;
         this.timer= 0;
+        this.spacePressed= false;
+        this.continueText.alpha= 0;
 
         //define keys
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -96,17 +102,34 @@ class CutTwo extends Phaser.Scene {
             this.scene.start('dayScene');
             this.game.sound.stopAll();
         }
-        if (this.count == text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.start('dayScene');
-            this.game.sound.stopAll();
+        if (this.count >= text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.fade=true; 
+            this.time.addEvent({delay: 4000, callback: () => {
+                this.scene.start('dayScene');
+                this.game.sound.stopAll();
+            }, callbackScope: this, loop: false});
         }
 
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.spacePressed =true;
             this.t1.start(text[this.count], 20);
             this.count++;
         }
 
-        this.blackScreen.alpha -= .005;
+        if(!this.spacePressed){
+            this.continueText.alpha += .0025;
+        }
+        else{
+            this.continueText.alpha -= .005;
+        }
+
+        if(!this.fade){
+            this.blackScreen.alpha -= .005;
+        }
+        else{
+            this.blackScreen.alpha += .005;
+        }
+
         this.overlay.anims.play('overlay', 1, true);
     }
 }

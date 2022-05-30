@@ -23,9 +23,11 @@ class Rain extends Phaser.Scene {
         this.load.image('treesRain', './Assets/Rain/treesRain.png');
         this.load.image('cloudsRain', './Assets/Rain/cloudsRain.png');
         this.load.image('bgRain', './Assets/Rain/backgroundRain.png');
-        this.load.image('FogFish', './Assets/Fish/FogFish.png');
+        this.load.image('RainFish', './Assets/Fish/RainFish.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('overlayRain', './Assets/Rain/overlayRain.png');
+        this.load.spritesheet('rainOverlay', './Assets/Rain/rainOverlay.png', {frameWidth: 200, frameHeight: 100, startFrame: 0, endFrame: 3});
+
 
     }
 
@@ -55,7 +57,7 @@ class Rain extends Phaser.Scene {
             frames: this.anims.generateFrameNames('playerAtlas', {
                 prefix: 'player_cast_',
                 start: 1,
-                end: 3,
+                end: 4,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -92,13 +94,28 @@ class Rain extends Phaser.Scene {
             yoyo: true,
         });
 
+        //player pull in 
+        this.anims.create({
+            key: 'player_pull',
+            frames: this.anims.generateFrameNames('playerAtlas', {
+                prefix: 'player_catch_',
+                start: 1,
+                end: 2,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 6,
+            //repeat: -1,
+            //yoyo: true,
+        });
+
         //player catch
         this.anims.create({
             key: 'player_catch',
             frames: this.anims.generateFrameNames('playerAtlas', {
                 prefix: 'player_catch_',
-                start: 1,
-                end: 3,
+                start: 3,
+                end: 5,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -110,6 +127,11 @@ class Rain extends Phaser.Scene {
         this.anims.create({
             key: 'overlay',
             frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
+        });
+
+        this.anims.create({
+            key: 'rainOverlay',
+            frames: this.anims.generateFrameNumbers('rainOverlay', {start: 0, end: 3, first: 0}), frameRate: 6
         });
 
         this.anims.create({
@@ -160,7 +182,7 @@ class Rain extends Phaser.Scene {
         this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lanternUI').setOrigin(0.5, 0.5);
         this.bucket = this.add.sprite(game.config.width- game.config.width/17, game.config.height/2,'bucket').setOrigin(0.5, 0.5);
 
-        this.fish = this.add.sprite(700, 600,'FogFish').setOrigin(0.5, 0.5);
+        this.fish = this.add.sprite(700, 600,'RainFish').setOrigin(0.5, 0.5);
         
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fogRain').setOrigin(0, 0);
 
@@ -172,6 +194,11 @@ class Rain extends Phaser.Scene {
         this.overlay.scaleX= 1.5;
         this.overlay.alpha= .25;
         this.fog.alpha = 0.25;
+        this.rainOverlay = this.add.sprite(0, 0, 'rainOverlay').setOrigin(0, 0);
+        this.rainOverlay.setBlendMode(Phaser.BlendModes.ADD);
+        this.rainOverlay.scaleX= 4.8;
+        this.rainOverlay.scaleY= 4.8;
+        this.rainOverlay.alpha= .25;
 
         this.lanternglow.setBlendMode(Phaser.BlendModes.ADD);
         this.lanternglow.alpha = 1- this.fog.alpha;
@@ -225,6 +252,9 @@ class Rain extends Phaser.Scene {
 
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
+        // overboard sfx
+        this.sfx_lose = this.sound.add('sfx_loseSplash');
+        this.sfx_lose.volume = 0.2;
 
         //cicada sfx
         this.cicada1 = this.sound.add('sfx_cicada1');
@@ -276,8 +306,12 @@ class Rain extends Phaser.Scene {
         
         //animations
         this.overlay.anims.play('overlay', 1, true);
+        this.rainOverlay.anims.play('rainOverlay', 1, true);
         this.water.anims.play('waterRain', 1, true);
         this.lanternglow.anims.play('lanternglow', 1, true);
+        if(this.pulled){
+            this.player.anims.play('player_catch', true);
+        }
 
         //console.log(this.lantern.y);
         this.timer += .005;
@@ -443,9 +477,16 @@ class Rain extends Phaser.Scene {
             this.player.alpha=0;
             this.playerDeath.alpha=1;
             this.playerDeath.anims.play('playerDeath', 1, true);
+            if (!this.lostSound){
+                this.time.addEvent({delay: 1000, callback: () => {
+                    this.sfx_lose.play();
+                }, callbackScope: this, loop: false});    
+                
+                this.lostSound = true;
+            }
 
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
-            this.time.addEvent({delay: 2000, callback: () => {
+            this.time.addEvent({delay: 2600, callback: () => {
                 this.scene.start('overScene'); //lose
             }, callbackScope: this, loop: false});
 
@@ -469,8 +510,12 @@ class Rain extends Phaser.Scene {
         this.fish.alpha = 1;
         this.won = true;
         this.move = false;
-        this.player.anims.play('player_catch', true);
-    
+        if(!this.pulled){
+            this.player.anims.play('player_pull', true);
+        }
+        this.time.addEvent({delay: 500, callback: () => {
+            this.pulled= true;
+        }, callbackScope: this, loop: false});    
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
