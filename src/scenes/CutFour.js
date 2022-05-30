@@ -1,6 +1,6 @@
-class CutThree extends Phaser.Scene {
+class CutFour extends Phaser.Scene {
     constructor() {
-      super("threeScene");
+      super("fourScene");
     }
 
     preload() {
@@ -13,13 +13,13 @@ class CutThree extends Phaser.Scene {
 
     create() {
         //remove later
-        this.add.text(20, 20, "cut three, press space");
-
-        this.text = ["hello", "welcome to cut three"];
-
+        this.add.text(20, 20, "cut four, press space");
         //define keys
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        //textbox dialogue
+        this.text = ["hello", "welcome to cut four"];
 
         //initialize textbox
         this.t1 = this.rexUI.add.textBox({
@@ -63,13 +63,13 @@ class CutThree extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            console.log("three to cloud");
-            this.scene.start('cloudScene');
+            console.log("four to rain");
+            this.scene.start('rainScene');
             this.game.sound.stopAll();
         }
 
         if (this.count >= this.text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.start('cloudScene');
+            this.scene.start('rainScene');
             this.game.sound.stopAll();
         }
 

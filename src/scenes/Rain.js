@@ -285,12 +285,12 @@ class Rain extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            console.log("Rain to Night");
-            this.scene.start('nightScene');
+            console.log("Rain to CutFive");
+            this.scene.start('fiveScene');
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('fourScene');
+            this.scene.start('rainScene');
             this.game.sound.stopAll();
         }
        
@@ -501,7 +501,7 @@ class Rain extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
-            this.scene.start('rainScene'); //win
+            this.scene.start('fiveScene'); //win
             this.dayActionbgm.stop(); // replace with song ending later gio chan
         }
     }
@@ -519,7 +519,7 @@ class Rain extends Phaser.Scene {
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
-            this.scene.start('rainScene'); //lose
+            this.scene.start('fiveScene'); //lose
         }, callbackScope: this, loop: false});
 
     }

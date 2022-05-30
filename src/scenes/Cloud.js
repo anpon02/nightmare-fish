@@ -446,7 +446,7 @@ class Cloud extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
-            this.scene.start('rainScene'); //win
+            this.scene.start('fourScene'); //win
         }
     }
 
@@ -464,7 +464,7 @@ class Cloud extends Phaser.Scene {
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
-            this.scene.start('rainScene'); //win
+            this.scene.start('fourScene'); //win
         }, callbackScope: this, loop: false});
 
     }

@@ -23,7 +23,7 @@ class Night extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('rainScene');
+            this.scene.start('fiveScene');
         }
     }
 }

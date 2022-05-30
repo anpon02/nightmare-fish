@@ -1,8 +1,3 @@
-var text = ["Sailor: Goin' fishing?", "Sailor: Didn't'cha hear? Town's bein' evacuated on account'a all the people goin' missin'.",
- "Sailor: Nothin' worth risking your life for out on those waters.", "Sailor: ...",
- "Sailor: You got the look of someone who's made up their mind.", "Sailor: Well, I wish y'luck, friend.", "Sailor: Hope y'find whatch'er lookin' for.", 
- "Sailor: Just remember t' stay out of the water...", "Sailor: If y'wanna come back, that is."];
-
 class CutTwo extends Phaser.Scene {
     constructor() {
       super("twoScene");
@@ -27,6 +22,11 @@ class CutTwo extends Phaser.Scene {
 
     create() {
         this.add.text(20, 20, "CUT SCENE");
+
+        this.text = ["Sailor: Goin' fishing?", "Sailor: Didn't'cha hear? Town's bein' evacuated on account'a all the people goin' missin'.",
+        "Sailor: Nothin' worth risking your life for out on those waters.", "Sailor: ...",
+        "Sailor: You got the look of someone who's made up their mind.", "Sailor: Well, I wish y'luck, friend.", "Sailor: Hope y'find whatch'er lookin' for.", 
+        "Sailor: Just remember t' stay out of the water...", "Sailor: If y'wanna come back, that is."];
 
         //place images
         this.TwoBackground = this.add.sprite(0,0,'cutsceneTwoBG').setOrigin(0,0);
@@ -103,7 +103,7 @@ class CutTwo extends Phaser.Scene {
             this.game.sound.stopAll();
         }
         
-        if (this.count >= text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
+        if (this.count >= this.text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.fade=true; 
             this.time.addEvent({delay: 4000, callback: () => {
                 this.scene.start('dayScene');
@@ -112,8 +112,8 @@ class CutTwo extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.spacePressed =true;
-            this.t1.start(text[this.count], 20);
+            this.spacePressed = true;
+            this.t1.start(this.text[this.count], 20);
             this.count++;
         }
 
