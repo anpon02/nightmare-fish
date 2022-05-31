@@ -286,6 +286,7 @@ class Rain extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Rain to CutFive");
+            this.game.sound.stopAll();
             this.scene.start('fiveScene');
         }
 
