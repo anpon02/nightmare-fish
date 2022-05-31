@@ -5,7 +5,7 @@ let config = {
     width: 640,
     height: 480,
 
-    scene: [ Menu, Day, Cloud, Rain, Night, Over, CutOne, AudioManager, CutTwo, CutThree, CutFour, CutFive ]
+    scene: [ Menu, Day, Cloud, Rain, Night, Over, CutOne, AudioManager, CutTwo, CutThree, CutFour, CutFive, CutSix ]
 }
 
 //game declaration
