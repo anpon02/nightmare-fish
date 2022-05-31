@@ -227,6 +227,10 @@ class Cloud extends Phaser.Scene {
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
 
+        // successful lantern lighting sfx
+        this.sfx_lantern = this.sound.add('sfx_lantern');
+        this.sfx_lantern.volume = 0.2;
+
                 // overboard sfx
         this.sfx_lose = this.sound.add('sfx_loseSplash');
         this.sfx_lose.volume = 0.2;
@@ -250,6 +254,8 @@ class Cloud extends Phaser.Scene {
             }
             console.log("CICADAPLAY:" + this.randNum);
           }, callbackScope: this, loop: true});
+
+
     }
 
     update() {
@@ -402,6 +408,7 @@ class Cloud extends Phaser.Scene {
             //correct input
             if(this.lanternUI.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lanternUI.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
                 this.fog.alpha -= .30;  
+                this.sfx_lantern.play();
             }
             //incorrect input
             else{
