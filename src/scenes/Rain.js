@@ -247,6 +247,9 @@ class Rain extends Phaser.Scene {
         this.rainLoop = this.sound.add('bgm_RFRLoop');
                 this.rainLoop.loop = true;
 
+        // Press C again sfx
+        this.sfx_pressC = this.sound.add('sfx_pressC');
+
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
 
@@ -356,6 +359,9 @@ class Rain extends Phaser.Scene {
             this.castTimer -= 25;
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
+                if(this.castTimer == 0){
+                    this.sfx_pressC.play();
+                }
                 //caught message
                 this.caughtSprite.alpha = 1;
                 this.caughtSprite.scaleX= .1 * Math.sin(10* this.timer) + .90;

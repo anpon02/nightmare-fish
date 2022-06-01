@@ -29,6 +29,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_lineCast', './Assets/AudioFiles/sfx_lineCast.mp3');
         this.load.audio('sfx_bucket', './Assets/AudioFiles/sfx_bucket.mp3');
         this.load.audio('sfx_lantern', './Assets/AudioFiles/sfx_lanternFlick.mp3');
+        this.load.audio('sfx_pressC', './Assets/AudioFiles/sfx_woodBlock.mp3');
 
         
 

@@ -216,6 +216,9 @@ class Day extends Phaser.Scene {
 
         this.actionOn = false;
 
+        // Press C again sfx
+        this.sfx_pressC = this.sound.add('sfx_pressC');
+
         // line Reeling Sfx
         this.sfx_reel1 = this.sound.add('sfx_lineReeling1');
 
@@ -312,6 +315,9 @@ class Day extends Phaser.Scene {
             console.log("timer: " + this.castTimer);
             if(this.castTimer <= 0){
                 //caught message
+                if(this.castTimer == 0){
+                    this.sfx_pressC.play();
+                }
                 this.caughtSprite.alpha = 1;
                 this.caughtSprite.scaleX= .1 * Math.sin(10* this.timer) + .90;
                 this.caughtSprite.scaleY= .1 * Math.sin(10* this.timer) + .90;
