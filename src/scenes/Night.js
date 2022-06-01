@@ -17,7 +17,7 @@ class Night extends Phaser.Scene {
         this.load.image('barRed', './Assets/bar_red.png');
         this.load.image('redHoriz', './Assets/Fog/lanternBar.png');
         this.load.spritesheet('waterNight', './Assets/Night/waterNight.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
-        this.load.image('boat', './Assets/boat.png');
+        this.load.image('boatNight', './Assets/Night/boatNight.png');
         this.load.image('player', './Assets/player.png');
         this.load.image('treesNight', './Assets/Night/treesNight.png');
         this.load.image('cloudsNight', './Assets/Night/cloudsNight.png');
@@ -158,7 +158,7 @@ class Night extends Phaser.Scene {
         this.lanternglow = this.add.sprite(130, game.config.height/2,'lanternglow').setOrigin(0.5, 0.5);
         this.lantern = this.add.sprite(130,game.config.height/2 -5,'lantern').setOrigin(0.5, 0.5);
         this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding,'playerAtlas', 'player_idle').setOrigin(0.5, 0);
-        this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boat').setOrigin(0.5, 0);
+        this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding,'boatNight').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'waterNight').setOrigin(0.5, 0);
         this.playerDeath = this.add.sprite(game.config.width/2 +245, game.config.height/2- 65,'playerDeath').setOrigin(0.5, 0);
 
@@ -332,9 +332,9 @@ class Night extends Phaser.Scene {
         }
 
         //text manager
-        if(!this.cast && !this.win && !this.lose){
+        /*if(!this.cast && !this.win && !this.lose){
             this.rainText.alpha += .005;
-        }
+        }*/
 
         if(this.move && !this.enterPressed){
             this.enterText.alpha += .005;
@@ -363,9 +363,26 @@ class Night extends Phaser.Scene {
                     //this.fogActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
-                    //play death
-                    this.scene.start('overScene');
-                    this.game.sound.stopAll();
+                    //losing from not biting
+                    this.cast = false;
+                    this.lost= true;
+                    this.player.alpha=0;
+                    this.playerDeath.alpha=1;
+                    this.playerDeath.x= game.config.width/2;
+                    this.playerDeath.y= game.config.height/2- 50;
+                    this.playerDeath.anims.play('playerDeath', 1, true);
+                    if (!this.lostSound){
+                        this.time.addEvent({delay: 1000, callback: () => {
+                            this.sfx_lose.play();
+                        }, callbackScope: this, loop: false});    
+                        
+                        this.lostSound = true;
+                    }
+
+                    //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
+                    this.time.addEvent({delay: 2600, callback: () => {
+                        this.scene.start('overScene'); //lose
+                    }, callbackScope: this, loop: false});
                 }
             }
         }

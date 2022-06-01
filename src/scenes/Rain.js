@@ -376,9 +376,26 @@ class Rain extends Phaser.Scene {
                     //this.fogActionbgm.play();
                 }
                 else if (this.castTimer == -6000 && !this.move) {
-                    //play death
-                    this.scene.start('overScene');
-                    this.game.sound.stopAll();
+                     //losing from not biting
+                     this.cast = false;
+                     this.lost= true;
+                     this.player.alpha=0;
+                     this.playerDeath.alpha=1;
+                     this.playerDeath.x= game.config.width/2;
+                     this.playerDeath.y= game.config.height/2- 50;
+                     this.playerDeath.anims.play('playerDeath', 1, true);
+                     if (!this.lostSound){
+                         this.time.addEvent({delay: 1000, callback: () => {
+                             this.sfx_lose.play();
+                         }, callbackScope: this, loop: false});    
+                         
+                         this.lostSound = true;
+                     }
+ 
+                     //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
+                     this.time.addEvent({delay: 2600, callback: () => {
+                        this.scene.start('overScene'); //lose
+                     }, callbackScope: this, loop: false});
                 }
             }
         }
