@@ -136,6 +136,10 @@ class CutFive extends Phaser.Scene {
         this.time.addEvent({delay: 500, callback: () => {
             this.t1.start(this.text[this.count], 20);
         }, callbackScope: this, loop: false});
+
+        this.dayMusic = this.sound.add('bgm_DriftWood');
+        this.dayMusic.loop = true;
+        this.dayMusic.play();
     }
 
     update() {

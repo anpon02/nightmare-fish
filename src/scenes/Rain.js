@@ -232,6 +232,8 @@ class Rain extends Phaser.Scene {
         this.lost = false;
         this.fade= true;
 
+        this.lostSound = false;
+
         let backgroundConfig = {
             loop: true,
             volume: 1,
@@ -250,9 +252,18 @@ class Rain extends Phaser.Scene {
 
         // line fail sfx
         this.sfx_reelFail = this.sound.add('sfx_lineCrack');
+
         // overboard sfx
         this.sfx_lose = this.sound.add('sfx_loseSplash');
         this.sfx_lose.volume = 0.2;
+
+        // successful lantern lighting sfx
+        this.sfx_lantern = this.sound.add('sfx_lantern');
+        this.sfx_lantern.volume = 0.2;
+
+        // successful bucket sfx
+        this.sfx_bucket = this.sound.add('sfx_bucket');
+        this.sfx_bucket.volume = 0.5;
 
         //cicada sfx
         this.cicada1 = this.sound.add('sfx_cicada1');
@@ -284,6 +295,7 @@ class Rain extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Rain to CutFive");
+            this.game.sound.stopAll();
             this.scene.start('fiveScene');
         }
 
@@ -436,7 +448,8 @@ class Rain extends Phaser.Scene {
 
             //correct input
             if(this.lanternUI.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lanternUI.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
-                this.fog.alpha -= .25;  
+                this.fog.alpha -= .25; 
+                this.sfx_lantern.play(); 
             }
             //incorrect input
             else{
@@ -453,7 +466,7 @@ class Rain extends Phaser.Scene {
                 if(this.movespeed > .075){
                     this.movespeed -= .025;
                 }
-            
+                this.sfx_bucket.play();
             }
             //incorrect input
             else{

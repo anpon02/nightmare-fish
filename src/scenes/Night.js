@@ -18,8 +18,8 @@ class Night extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            console.log("Night to Over");
-            this.scene.start('overScene');
+            console.log("Night to CutSix");
+            this.scene.start('sixScene');
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
