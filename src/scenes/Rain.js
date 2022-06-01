@@ -27,8 +27,6 @@ class Rain extends Phaser.Scene {
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('overlayRain', './Assets/Rain/overlayRain.png');
         this.load.spritesheet('rainOverlay', './Assets/Rain/rainOverlay.png', {frameWidth: 200, frameHeight: 100, startFrame: 0, endFrame: 3});
-
-
     }
 
     create() {

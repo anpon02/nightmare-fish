@@ -3,6 +3,7 @@ class Menu extends Phaser.Scene {
       super("menuScene");
     }
     preload(){
+        this.load.image('blackScreen', './Assets/BlackScreen.png');
         this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
 
         this.load.image('titleCard', './Assets/titlecard.png' );
