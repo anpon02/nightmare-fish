@@ -308,7 +308,7 @@ class Cloud extends Phaser.Scene {
         }
 
         //text manager
-        if(!this.cast && !this.win && !this.lose){
+        if(!this.cast && !this.win && !this.lost){
             this.fogText.alpha += .005;
         }
 

@@ -5,27 +5,14 @@ class Night extends Phaser.Scene {
 
 
     preload() {
-        this.load.image('fogRain', './Assets/Rain/fogRain.png');
-        this.load.image('lantern', './Assets/Fog/lantern.png');
-        this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
-        this.load.image('hook', './Assets/hook.png');
-        this.load.image('lanternUI', './Assets/Fog/lanternUI.png');
-        this.load.image('bucket', './Assets/Rain/bucketUI.png');
-        this.load.image('caught', './Assets/caughtMessage.png');
-        this.load.image('barGreen', './Assets/bar_green.png');
-        this.load.image('greenHoriz', './Assets/Fog/lanternGreen.png');
-        this.load.image('barRed', './Assets/bar_red.png');
-        this.load.image('redHoriz', './Assets/Fog/lanternBar.png');
+        this.load.image('whisper', './Assets/Night/somethingsWhispering.png');
+        this.load.image('turnBack', './Assets/Night/turnBack.png');
         this.load.spritesheet('waterNight', './Assets/Night/waterNight.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
         this.load.image('boatNight', './Assets/Night/boatNight.png');
-        this.load.image('player', './Assets/player.png');
         this.load.image('treesNight', './Assets/Night/treesNight.png');
         this.load.image('cloudsNight', './Assets/Night/cloudsNight.png');
         this.load.image('bgNight', './Assets/Night/backgroundNight.png');
-        this.load.image('RainFish', './Assets/Fish/RainFish.png');
-        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
-        this.load.image('overlayRain', './Assets/Rain/overlayRain.png');
-        this.load.spritesheet('rainOverlay', './Assets/Rain/rainOverlay.png', {frameWidth: 200, frameHeight: 100, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('overlayScary', './Assets/Night/overlayScary.png', {frameWidth: 650, frameHeight: 480, startFrame: 0, endFrame: 9});
     }
 
     create() {
@@ -130,6 +117,11 @@ class Night extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'overlayScary',
+            frames: this.anims.generateFrameNumbers('overlayScary', {start: 0, end: 9, first: 0}), frameRate: 6
+        });
+
+        this.anims.create({
             key: 'lanternglow',
             frames: this.anims.generateFrameNumbers('lanternglow', {start: 0, end: 2, first: 0}), frameRate: 2
         });
@@ -162,8 +154,8 @@ class Night extends Phaser.Scene {
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding,'waterNight').setOrigin(0.5, 0);
         this.playerDeath = this.add.sprite(game.config.width/2 +245, game.config.height/2- 65,'playerDeath').setOrigin(0.5, 0);
 
-        this.enterText = this.add.sprite(game.config.width/2, game.config.height/2 - 160, 'enterText').setOrigin(0.5, 0);
-        this.rainText = this.add.sprite(game.config.width/2, game.config.height - 110, 'rainText').setOrigin(0.5, 0);
+        this.turnBack = this.add.sprite(game.config.width/2, game.config.height/2 - 160, 'turnBack').setOrigin(0.5, 0);
+        this.whisper = this.add.sprite(game.config.width/2, game.config.height - 110, 'whisper').setOrigin(0.5, 0);
         
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.redHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'redHoriz').setOrigin(0.5, 0.5);
@@ -202,6 +194,10 @@ class Night extends Phaser.Scene {
         this.overlayRain.setBlendMode(Phaser.BlendModes.OVERLAY);
         this.overlayRain.alpha= .35;
 
+        this.overlayScary = this.add.sprite(0, 0, 'overlayScary').setOrigin(0, 0);
+        //this.overlayScary.setBlendMode(Phaser.BlendModes.MULTIPLY);
+        this.overlayScary.alpha= 0;
+
         //blackscreen
         this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
         this.blackScreen.alpha= 1;
@@ -216,10 +212,11 @@ class Night extends Phaser.Scene {
         this.castTimer = 6000;
         this.caughtSprite.alpha = 0;
         this.move = false;
-        this.enterText.alpha=0;
-        this.rainText.alpha=0;
+        this.turnBack.alpha=0;
+        this.whisper.alpha=0;
         this.movespeed= .075;
         this.playerDeath.alpha=0;
+        this.spacePressed= false;
 
         this.timer=0;
         this.fishtimer= 430;
@@ -228,6 +225,7 @@ class Night extends Phaser.Scene {
         this.won = false;
         this.lost = false;
         this.fade= true;
+        this.fadeScary= true;
 
         this.lostSound = false;
 
@@ -289,11 +287,19 @@ class Night extends Phaser.Scene {
         }, callbackScope: this, loop: true});
 
         //psychic attacks
-        this.time.addEvent({delay: 5000, callback: () => {
+        this.time.addEvent({delay: 7000, callback: () => {
             //AHHHHHHHHHHHHH
-            this.barGreen.x = Phaser.Math.Between(63, 517);
-            this.greenHoriz.y = Phaser.Math.Between(88.5, 391.5);
-            this.greenBucket.y = Phaser.Math.Between(88.5, 391.5);
+            if(this.move){
+                this.fadeScary= false;
+            }
+            this.time.addEvent({delay: 1000, callback: () => {
+                if(this.move){
+                    this.barGreen.x = Phaser.Math.Between(63, 517);
+                    this.greenHoriz.y = Phaser.Math.Between(88.5, 391.5);
+                    this.greenBucket.y = Phaser.Math.Between(88.5, 391.5);
+                    this.fadeScary= true;
+                }
+            }, callbackScope: this, loop: false});
         }, callbackScope: this, loop: true});
     }
     update() {
@@ -314,9 +320,17 @@ class Night extends Phaser.Scene {
             this.blackScreen.alpha += .005;
         }
 
+        if(this.fadeScary){
+            this.overlayScary.alpha -= .005;
+        }
+        else{
+            this.overlayScary.alpha += .005;
+        }
+
         //animations
         this.overlay.anims.play('overlay', 1, true);
         this.rainOverlay.anims.play('rainOverlay', 1, true);
+        this.overlayScary.anims.play('overlayScary', 1, true);
         this.water.anims.play('waterNight', 1, true);
         this.lanternglow.anims.play('lanternglow', 1, true);
         if(this.pulled){
@@ -339,15 +353,15 @@ class Night extends Phaser.Scene {
         }
 
         //text manager
-        /*if(!this.cast && !this.win && !this.lose){
-            this.rainText.alpha += .005;
-        }*/
+        if(!this.cast && !this.win && !this.lost){
+            this.whisper.alpha += .005;
+        }
 
-        if(this.move && !this.enterPressed){
-            this.enterText.alpha += .005;
+        if(this.move && !this.spacePressed){
+            this.turnBack.alpha += .005;
         }
         else{
-            this.enterText.alpha -= .005;
+            this.turnBack.alpha -= .005;
         }
 
 
@@ -405,7 +419,7 @@ class Night extends Phaser.Scene {
             //this.caughtSprite.alpha = 0;
             this.player.anims.play('player_idle', false);
             this.player.anims.play('player_cast', true);
-            this.rainText.alpha = 0;
+            this.whisper.alpha = 0;
             this.cast = true;
             //music stuff here
             this.sound.play('sfx_lineCast');
@@ -445,6 +459,7 @@ class Night extends Phaser.Scene {
         
         //input checks for hook
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.move && !this.lost) {
+            this.spacePressed= true;
             //correct input            
             if(this.hook.x <= this.barGreen.x + .5* this.barGreen.width && this.hook.x >= this.barGreen.x - .5* this.barGreen.width){
                 this.player.x -= 12;
@@ -465,7 +480,7 @@ class Night extends Phaser.Scene {
 
             //correct input
             if(this.lanternUI.y <= this.greenHoriz.y + .5* this.greenHoriz.height && this.lanternUI.y >= this.greenHoriz.y - .5* this.greenHoriz.height ){
-                this.fog.alpha -= .25; 
+                this.fog.alpha -= .35; 
                 this.sfx_lantern.play(); 
             }
             //incorrect input
@@ -521,11 +536,13 @@ class Night extends Phaser.Scene {
         }
 
         if(this.player.x - .5*this.player.width -25 < this.boat.x - .5*this.boat.width){
-            this.fishCaught(this.fish); //summon the fish
+            this.scene.start('sixScene'); //win
+            
+            /*this.fishCaught(this.fish); //summon the fish
             this.player.x= (this.boat.x - .5*this.boat.width) + .5*this.player.width +25; //set player position
             this.time.addEvent({delay: 2500, callback: () => {
                 this.fade= false;
-            }, callbackScope: this, loop: false});
+            }, callbackScope: this, loop: false});*/
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
@@ -547,7 +564,7 @@ class Night extends Phaser.Scene {
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
-            this.scene.start('sixScene'); //lose
+            this.scene.start('sixScene'); //win
         }, callbackScope: this, loop: false});
 
     }

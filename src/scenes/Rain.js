@@ -342,7 +342,7 @@ class Rain extends Phaser.Scene {
         }
 
         //text manager
-        if(!this.cast && !this.win && !this.lose){
+        if(!this.cast && !this.win && !this.lost){
             this.rainText.alpha += .005;
         }
 
