@@ -9,118 +9,21 @@ class Cloud extends Phaser.Scene {
         this.load.image('fog', './Assets/Fog/fog.png');
         this.load.image('lantern', './Assets/Fog/lantern.png');
         this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
-        this.load.image('hook', './Assets/hook.png');
         this.load.image('lanternUI', './Assets/Fog/lanternUI.png');
         this.load.image('caught', './Assets/caughtMessage.png');
-        this.load.image('barGreen', './Assets/bar_green.png');
         this.load.image('greenHoriz', './Assets/Fog/lanternGreen.png');
-        this.load.image('barRed', './Assets/bar_red.png');
         this.load.image('redHoriz', './Assets/Fog/lanternBar.png');
         this.load.spritesheet('waterFog', './Assets/Fog/waterFog.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
-        this.load.image('boat', './Assets/boat.png');
-        this.load.image('player', './Assets/player.png');
         this.load.image('treesFog', './Assets/Fog/treesFog.png');
         this.load.image('cloudsFog', './Assets/Fog/cloudsFog.png');
         this.load.image('bgFog', './Assets/Fog/backgroundFog.png');
         this.load.image('FogFish', './Assets/Fish/FogFish.png');
-        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
     }
 
     create() {
         goback = 'cloudScene';
         this.add.text(20, 20, "CLOUD SCENE!");
-
-        //player idle
-        this.anims.create({
-            key: 'player_idle',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_idle_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 2,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        //player cast
-        this.anims.create({
-            key: 'player_cast',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_cast_',
-                start: 1,
-                end: 4,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            //repeat: -1,
-        });
-
-        //player reel
-        this.anims.create({
-            key: 'player_reel',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_reel_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
-
-        //player miss
-        this.anims.create({
-            key: 'player_miss',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_miss_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        //player pull in 
-        this.anims.create({
-            key: 'player_pull',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_catch_',
-                start: 1,
-                end: 2,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            //repeat: -1,
-            //yoyo: true,
-        });
-
-        //player catch
-        this.anims.create({
-            key: 'player_catch',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_catch_',
-                start: 3,
-                end: 5,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-            yoyo: true,
-        });
-        this.anims.create({
-            key: 'overlay',
-            frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
-        });
+        
 
         this.anims.create({
             key: 'lanternglow',
@@ -476,7 +379,7 @@ class Cloud extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyN) && this.won) {
-            this.scene.start('rainScene'); //win
+            this.scene.start('fourScene'); //win
         }
     }
 
@@ -494,7 +397,7 @@ class Cloud extends Phaser.Scene {
 
         //get rid of later
         this.time.addEvent({delay: 4000, callback: () => {
-            this.scene.start('rainScene'); //win
+            this.scene.start('fourScene'); //win
         }, callbackScope: this, loop: false});
 
     }

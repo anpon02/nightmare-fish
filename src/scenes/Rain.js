@@ -7,24 +7,13 @@ class Rain extends Phaser.Scene {
         this.load.image('enterText', './Assets/Rain/pressEnter.png');
         this.load.image('rainText', './Assets/Rain/boatSlippery.png');
         this.load.image('fogRain', './Assets/Rain/fogRain.png');
-        this.load.image('lantern', './Assets/Fog/lantern.png');
-        this.load.spritesheet('lanternglow', './Assets/Fog/lanternglow.png', {frameWidth: 200, frameHeight: 200, startFrame: 0, endFrame: 2});
-        this.load.image('hook', './Assets/hook.png');
-        this.load.image('lanternUI', './Assets/Fog/lanternUI.png');
         this.load.image('bucket', './Assets/Rain/bucketUI.png');
         this.load.image('caught', './Assets/caughtMessage.png');
-        this.load.image('barGreen', './Assets/bar_green.png');
-        this.load.image('greenHoriz', './Assets/Fog/lanternGreen.png');
-        this.load.image('barRed', './Assets/bar_red.png');
-        this.load.image('redHoriz', './Assets/Fog/lanternBar.png');
         this.load.spritesheet('waterRain', './Assets/Rain/waterRain.png', {frameWidth: 640, frameHeight: 120, startFrame: 0, endFrame: 11});
-        this.load.image('boat', './Assets/boat.png');
-        this.load.image('player', './Assets/player.png');
         this.load.image('treesRain', './Assets/Rain/treesRain.png');
         this.load.image('cloudsRain', './Assets/Rain/cloudsRain.png');
         this.load.image('bgRain', './Assets/Rain/backgroundRain.png');
         this.load.image('RainFish', './Assets/Fish/RainFish.png');
-        this.load.spritesheet('overlay', './Assets/overlay.png', {frameWidth: 480, frameHeight: 672, startFrame: 0, endFrame: 5});
         this.load.image('overlayRain', './Assets/Rain/overlayRain.png');
         this.load.spritesheet('rainOverlay', './Assets/Rain/rainOverlay.png', {frameWidth: 200, frameHeight: 100, startFrame: 0, endFrame: 3});
     }
@@ -34,98 +23,6 @@ class Rain extends Phaser.Scene {
         goback = 'rainScene';
         this.add.text(20, 20, "RAIN SCENE!");
 
-        //player idle
-        this.anims.create({
-            key: 'player_idle',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_idle_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 2,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        //player cast
-        this.anims.create({
-            key: 'player_cast',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_cast_',
-                start: 1,
-                end: 4,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            //repeat: -1,
-        });
-
-        //player reel
-        this.anims.create({
-            key: 'player_reel',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_reel_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
-
-        //player miss
-        this.anims.create({
-            key: 'player_miss',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_miss_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        //player pull in 
-        this.anims.create({
-            key: 'player_pull',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_catch_',
-                start: 1,
-                end: 2,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            //repeat: -1,
-            //yoyo: true,
-        });
-
-        //player catch
-        this.anims.create({
-            key: 'player_catch',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_catch_',
-                start: 3,
-                end: 5,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        this.anims.create({
-            key: 'overlay',
-            frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
-        });
 
         this.anims.create({
             key: 'rainOverlay',

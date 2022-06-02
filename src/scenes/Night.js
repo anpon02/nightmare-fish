@@ -18,98 +18,6 @@ class Night extends Phaser.Scene {
     create() {
         this.add.text(20, 20, "NIGHT SCENE");
 
-        //player idle
-        this.anims.create({
-            key: 'player_idle',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_idle_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 2,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        //player cast
-        this.anims.create({
-            key: 'player_cast',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_cast_',
-                start: 1,
-                end: 4,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            //repeat: -1,
-        });
-
-        //player reel
-        this.anims.create({
-            key: 'player_reel',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_reel_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
-
-        //player miss
-        this.anims.create({
-            key: 'player_miss',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_miss_',
-                start: 1,
-                end: 3,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        //player pull in 
-        this.anims.create({
-            key: 'player_pull',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_catch_',
-                start: 1,
-                end: 2,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            //repeat: -1,
-            //yoyo: true,
-        });
-
-        //player catch
-        this.anims.create({
-            key: 'player_catch',
-            frames: this.anims.generateFrameNames('playerAtlas', {
-                prefix: 'player_catch_',
-                start: 3,
-                end: 5,
-                suffix: '',
-                zeroPad: 4
-            }),
-            frameRate: 6,
-            repeat: -1,
-            yoyo: true,
-        });
-
-        this.anims.create({
-            key: 'overlay',
-            frames: this.anims.generateFrameNumbers('overlay', {start: 0, end: 5, first: 0}), frameRate: 6
-        });
 
         this.anims.create({
             key: 'rainOverlay',
@@ -155,7 +63,7 @@ class Night extends Phaser.Scene {
         this.playerDeath = this.add.sprite(game.config.width/2 +245, game.config.height/2- 65,'playerDeath').setOrigin(0.5, 0);
 
         this.turnBack = this.add.sprite(game.config.width/2, game.config.height/2 - 160, 'turnBack').setOrigin(0.5, 0);
-        this.whisper = this.add.sprite(game.config.width/2, game.config.height - 110, 'whisper').setOrigin(0.5, 0);
+        this.whisper = this.add.sprite(game.config.width/2, game.config.height - 115, 'whisper').setOrigin(0.5, 0);
         
         this.barRed = this.add.sprite(game.config.width/2, game.config.height/7 - borderUISize - borderPadding,'barRed').setOrigin(0.5, 0);
         this.redHoriz = this.add.sprite(game.config.width/17, game.config.height/2,'redHoriz').setOrigin(0.5, 0.5);
