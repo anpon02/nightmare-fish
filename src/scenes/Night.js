@@ -291,9 +291,9 @@ class Night extends Phaser.Scene {
         //psychic attacks
         this.time.addEvent({delay: 5000, callback: () => {
             //AHHHHHHHHHHHHH
-            this.barGreen.x = math.random(240);
-            this.greenHoriz.y = math.random(320);
-            this.greenBucket.y = math.random(320);
+            this.barGreen.x = Phaser.Math.Between(63, 517);
+            this.greenHoriz.y = Phaser.Math.Between(88.5, 391.5);
+            this.greenBucket.y = Phaser.Math.Between(88.5, 391.5);
         }, callbackScope: this, loop: true});
     }
     update() {
