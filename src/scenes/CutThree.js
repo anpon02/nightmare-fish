@@ -10,7 +10,7 @@ class CutThree extends Phaser.Scene {
         this.load.bitmapFont('gothic', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.png',
          'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.xml');
 
-         this.load.image('playerCutThree', './Assets/CutSceneThree/playerCutThree.png');
+        this.load.image('playerCutThree', './Assets/CutSceneThree/playerCutThree.png');
     }
 
     create() {
