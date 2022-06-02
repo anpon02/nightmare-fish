@@ -19,6 +19,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('bgm_RFRIntro', './Assets/AudioFiles/bgm_ReelingFromCurrent(Rain)Intro.mp3');
         this.load.audio('bgm_RFRLoop', './Assets/AudioFiles/bgm_ReelingFromCurrent(Rain)Loop.mp3');
         this.load.audio('bgm_gameOver', './Assets/AudioFiles/bgm_gameOver.mp3');
+        this.load.audio('bgm_endCutscene', './Assets/AudioFiles/bgm_endCutscene.mp3');
 
         this.load.audio('sfx_startMenu', './Assets/AudioFiles/sfx_startMenu.wav');
         this.load.audio('sfx_lineReeling1', './Assets/AudioFiles/sfx_lineReeling1.mp3');

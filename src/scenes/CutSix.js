@@ -27,7 +27,18 @@ class CutSix extends Phaser.Scene {
     }
 
     create() {
+        this.game.sound.stopAll();
         this.add.text(20, 20, "Hi vin!"); //hi ankie
+
+        // moosic start
+        this.bgm_end = this.sound.add('bgm_endCutscene');
+        this.bgm_end.volume = 0;
+        this.bgm_end.play()
+        this.tweens.add({
+          targets: this.bgm_end,
+          volume: 1,
+          duration: 3000
+      });
 
         this.timer= 0;
         this.playeranims =0;
