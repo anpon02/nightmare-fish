@@ -10,8 +10,8 @@ class CutTwo extends Phaser.Scene {
         //load sprites
         this.load.image('cutsceneTwoBG','./Assets/CutSceneTwo/cutsceneTwoBackground.png');
         this.load.image('cutsceneTwoPier','./Assets/CutSceneTwo/cutsceneTwoPier.png');
-        this.load.image('cutsceneTwoPlayer','./Assets/CutSceneTwo/cutsceneTwoPlayer.png');
-        this.load.image('cutsceneTwoSailor','./Assets/CutSceneTwo/cutsceneTwoSailor.png');
+        this.load.spritesheet('cutsceneTwoPlayer', './Assets/CutSceneTwo/playerLook.png', {frameWidth: 127, frameHeight: 202, startFrame: 0, endFrame: 2});
+        this.load.spritesheet('cutsceneTwoSailor', './Assets/CutSceneTwo/cutsceneTwoSailor.png', {frameWidth: 127, frameHeight: 202, startFrame: 0, endFrame: 2});
         this.load.image('cutsceneTwoSunrise','./Assets/CutSceneTwo/cutsceneTwoSunrise.png');
         this.load.image('continueText','./Assets/CutSceneTwo/continueText.png');
         this.load.image('TextBox','./Assets/CutSceneTwo/TextBox.png'); 
@@ -32,11 +32,13 @@ class CutTwo extends Phaser.Scene {
         this.TwoBackground = this.add.sprite(0,0,'cutsceneTwoBG').setOrigin(0,0);
         this.TwoSunrise = this.add.tileSprite(0, 0, 640, 480, 'cutsceneTwoSunrise').setOrigin(0, 0);
         this.TwoPier = this.add.sprite(0,0,'cutsceneTwoPier').setOrigin(0,0);
-        this.TwoPlayer = this.add.sprite(440,250,'cutsceneTwoPlayer').setOrigin(0.5,1);
-        this.TwoSailor = this.add.sprite(200,250,'cutsceneTwoSailor').setOrigin(0.5,1);
+        this.cutsceneTwoSailor = this.add.sprite(200,250,'cutsceneTwoSailor').setOrigin(0.5,1);
+        this.cutsceneTwoPlayer = this.add.sprite(400,250,'cutsceneTwoPlayer').setOrigin(0.5,1);
         this.textBox = this.add.sprite(0,280,'TextBox').setOrigin(0,0);
         this.continueText = this.add.sprite(game.config.width/2, game.config.height - 80, 'continueText').setOrigin(0.5, 0);
 
+        this.cutsceneTwoPlayer.scaleX= 1.1;
+        this.cutsceneTwoPlayer.scaleY= 1.1;
         
         this.t1 = this.rexUI.add.textBox({
             x: 30,
@@ -73,6 +75,16 @@ class CutTwo extends Phaser.Scene {
 
         }).setOrigin(0).layout();
 
+        this.anims.create({
+            key: 'cutsceneTwoSailor',
+            frames: this.anims.generateFrameNumbers('cutsceneTwoSailor', {start: 0, end: 2, first: 0}), frameRate: .5
+        });
+
+        this.anims.create({
+            key: 'cutsceneTwoPlayer',
+            frames: this.anims.generateFrameNumbers('cutsceneTwoPlayer', {start: 0, end: 2, first: 0}), frameRate: .5
+        });
+
         //overlay
         this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
         this.overlay.setBlendMode(Phaser.BlendModes.ADD);
@@ -103,6 +115,10 @@ class CutTwo extends Phaser.Scene {
             this.game.sound.stopAll();
         }
         
+        this.cutsceneTwoSailor.anims.play('cutsceneTwoSailor', 1, true);
+        this.cutsceneTwoPlayer.anims.play('cutsceneTwoPlayer', 1, true);
+
+
         if (this.count >= this.text.length && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.fade=true; 
             this.time.addEvent({delay: 4000, callback: () => {
