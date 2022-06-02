@@ -54,17 +54,17 @@ class CutFour extends Phaser.Scene {
             
             "Ghostly Fish: That thing...", 
             
-            "Ghostly Fish: It had me by the ankle. I kicked and flailed but I couldn’t break its slimy grasp-",
+            "Ghostly Fish: It had me by the ankle. I kicked and flailed but I couldn't break its slimy grasp-",
             
             "Ghostly Fish: It brought me deeper and deeper-",
             
-            "Ghostly Fish: My skin turned to scales, I’d never felt more pain.",
+            "Ghostly Fish: My skin turned to scales, I'd never felt more pain.",
             
             "Ghostly Fish: ...", 
             
             "Ghostly Fish: If you see my husband...",
             
-            "Ghostly Fish: Tell him I love him, won’t you?"
+            "Ghostly Fish: Tell him I love him, won't you?"
             ];
 
         //initialize textbox

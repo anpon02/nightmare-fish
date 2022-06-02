@@ -286,9 +286,16 @@ class Night extends Phaser.Scene {
                 console.log('nothin');
             }
             console.log("CICADAPLAY:" + this.randNum);
-          }, callbackScope: this, loop: true});
-        }
+        }, callbackScope: this, loop: true});
 
+        //psychic attacks
+        this.time.addEvent({delay: 5000, callback: () => {
+            //AHHHHHHHHHHHHH
+            this.barGreen.x = math.random(240);
+            this.greenHoriz.y = math.random(320);
+            this.greenBucket.y = math.random(320);
+        }, callbackScope: this, loop: true});
+    }
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             console.log("Night to CutSix");
