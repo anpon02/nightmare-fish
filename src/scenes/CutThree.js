@@ -11,6 +11,7 @@ class CutThree extends Phaser.Scene {
          'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/fonts/gothic.xml');
 
         this.load.image('playerCutThree', './Assets/CutSceneThree/playerCutThree.png');
+        this.load.spritesheet('holdFish', './Assets/holdFish.png', {frameWidth: 115, frameHeight: 155, startFrame: 0, endFrame: 1});
     }
 
     create() {
@@ -49,11 +50,21 @@ class CutThree extends Phaser.Scene {
         //place images
         this.background = this.add.tileSprite(0, 0, gamewidth, gameheight -150, 'bg').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, gamewidth, gameheight-150, 'trees').setOrigin(0, 0);
-        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding-150,'playerCutThree').setOrigin(0.5, 0);
+        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding-150,'holdFish').setOrigin(0.5, 0);
+        this.fish = this.add.sprite(game.config.width/2 + 75, game.config.height/2 - borderUISize - borderPadding-75,'DayFish').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding-150,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding-150,'water').setOrigin(0.5, 0);
 
         this.textBox = this.add.sprite(0,280,'TextBox').setOrigin(0,0);
+
+        this.anims.create({
+            key: 'holdFish',
+            frames: this.anims.generateFrameNumbers('holdFish', {start: 0, end: 1, first: 0}), frameRate: 1
+        });
+
+        this.fish.angle= 90;
+        this.fish.scaleX= .6;
+        this.fish.scaleY= .6;
 
         //initialize textbox
         this.t1 = this.rexUI.add.textBox({
@@ -120,6 +131,7 @@ class CutThree extends Phaser.Scene {
         //animations
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
+        this.player.anims.play('holdFish', 1, true);
     
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +128;

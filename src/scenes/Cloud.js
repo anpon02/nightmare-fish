@@ -70,6 +70,9 @@ class Cloud extends Phaser.Scene {
         this.lanternUI = this.add.sprite(game.config.width/17, game.config.height/2,'lanternUI').setOrigin(0.5, 0.5);
         
         this.fish = this.add.sprite(700, 600,'FogFish').setOrigin(0.5, 0.5);
+
+        this.fish.scaleX= .75;
+        this.fish.scaleY= .75;
         
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 

@@ -26,9 +26,15 @@ class CutFour extends Phaser.Scene {
         this.clouds = this.add.tileSprite(0, 0, gamewidth, gameheight -150, 'cloudsFog').setOrigin(0, 0);        
         this.lanternglow = this.add.sprite(130, game.config.height/2 -150,'lanternglow').setOrigin(0.5, 0.5);
         this.lantern = this.add.sprite(130,game.config.height/2 -5 -150,'lantern').setOrigin(0.5, 0.5);
-        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding -150,'playerCutFour').setOrigin(0.5, 0);
+        this.player = this.add.sprite(game.config.width/2, game.config.height/2 - borderUISize - borderPadding -150,'holdFish').setOrigin(0.5, 0);
+        this.fish = this.add.sprite(game.config.width/2 + 100, game.config.height/2 - borderUISize - borderPadding-50,'FogFish').setOrigin(0.5, 0);
         this.boat = this.add.sprite(game.config.width/2, game.config.height/1.5 - borderUISize - borderPadding -150,'boat').setOrigin(0.5, 0);
         this.water = this.add.sprite(game.config.width/2, game.config.height/1.15 - borderUISize - borderPadding -150,'waterFog').setOrigin(0.5, 0);
+
+
+        this.fish.angle= 90;
+        this.fish.scaleX= .75;
+        this.fish.scaleY= .75;
 
         this.fog = this.add.tileSprite(0, 0, gamewidth, gameheight, 'fog').setOrigin(0, 0);
 
@@ -137,7 +143,7 @@ class CutFour extends Phaser.Scene {
         this.overlay.anims.play('overlay', 1, true);
         this.water.anims.play('water', 1, true);
         this.lanternglow.anims.play('lanternglow', 1, true);
-
+        this.player.anims.play('holdFish', 1, true);
     
         this.timer += .005;
         this.boat.y= 4* Math.sin(this.timer) +128;

@@ -163,6 +163,9 @@ class Day extends Phaser.Scene {
         this.mashText = this.add.sprite(game.config.width/2, game.config.height/2 - 150, 'mashText').setOrigin(0.5, 0);
         //this.fish = this.add.sprite(game.config.width/2, 55,'DayFish').setOrigin(0.5, 0);
         this.fish = this.add.sprite(640, 480,'DayFish').setOrigin(0.5, 0.5);
+
+        this.fish.scaleX= .6;
+        this.fish.scaleY= .6;
         
 
         //overlay
