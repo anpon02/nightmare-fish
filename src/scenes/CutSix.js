@@ -24,6 +24,9 @@ class CutSix extends Phaser.Scene {
       this.load.spritesheet('sitUp', './Assets/CutsceneFinal/sitUp.png', {frameWidth: 700, frameHeight: 1000, startFrame: 0, endFrame: 1});
 
       this.load.image('waterSplash', './Assets/CutsceneFinal/waterSplash.png');
+
+      this.load.image('endScreen','./Assets/CutsceneFinal/endScreen.png');
+
     }
 
     create() {
@@ -114,6 +117,11 @@ class CutSix extends Phaser.Scene {
         this.bg3.alpha=0;
         this.finalClouds.alpha=0;
 
+        //endscreen
+        this.endScreen= this.add.sprite(0,0, 'endScreen').setOrigin(0,0);
+        this.endScreen.alpha= 0;
+        this.fadeEnd= false;
+
         //overlay
         this.overlay = this.add.sprite(0, 0, 'overlay').setOrigin(0, 0);
         this.overlay.setBlendMode(Phaser.BlendModes.ADD);
@@ -127,7 +135,7 @@ class CutSix extends Phaser.Scene {
         this.fade= true;
 
         //blackscreen
-        this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);
+        this.blackScreen= this.add.sprite(0,0, 'blackScreen').setOrigin(0,0);       
 
         //if theres a better way to do this I'll learn it when I'm dead
         this.time.addEvent({delay:2000, callback: () =>{
@@ -189,6 +197,16 @@ class CutSix extends Phaser.Scene {
                           this.playerSheet.anims.play('playerSheet3', 1, false);
                           this.time.addEvent({delay:6000, callback: () =>{
                             this.fade= false;
+                            this.time.addEvent({delay:2000, callback: () =>{
+                              this.cameras.main.pan(
+                                0,
+                                0,
+                                0,
+                                'Sine.easeInOut'
+                              );
+                              this.endScreen.alpha= 1;
+                              this.fade= true;
+                            }, callbackScope: this, loop: false});
                           }, callbackScope: this, loop: false});
                         }, callbackScope: this, loop: false});
                       }, callbackScope: this, loop: false});
@@ -211,6 +229,10 @@ class CutSix extends Phaser.Scene {
       }
       else{
           this.blackScreen.alpha += .005;
+      }
+
+      if(this.fadeEnd){
+        this.endScreen.alpha += .005;
       }
 
       //scene 1
