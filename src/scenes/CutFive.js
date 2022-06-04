@@ -13,6 +13,7 @@ class CutFive extends Phaser.Scene {
     }
 
     create() {
+        this.game.sound.stopAll();
         //remove later
         this.add.text(20, 20, "cut five, press space");
 
