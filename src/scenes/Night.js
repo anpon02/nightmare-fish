@@ -17,6 +17,8 @@ class Night extends Phaser.Scene {
 
     create() {
         this.add.text(20, 20, "NIGHT SCENE");
+        goback = 'nightScene';
+
 
 
         this.anims.create({
