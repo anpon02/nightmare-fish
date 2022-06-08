@@ -367,6 +367,7 @@ class Cloud extends Phaser.Scene {
             
             //stops music and goes to gameover scene, UPDATE delay to allow time for animation later
             this.time.addEvent({delay: 2600, callback: () => {
+                this.fogLoop.stop();
                 this.scene.start('overScene'); //lose
             }, callbackScope: this, loop: false});
 
